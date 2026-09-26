@@ -100,8 +100,8 @@ const CONDS = [["new","cond_new"],["ret","cond_ret"],["mix","cond_mix"]];
 const BRANDS = [["un","brand_un"],["own","brand_own"],["auth","brand_auth"]];
 
 /* ---------------- Supabase config & client ---------------- */
-/* supabase-config.js (gitignored) sets: window.SC_CONFIG = {url, anon}.
-   Copy supabase-config.example.js -> supabase-config.js and fill your keys.
+/* supabase-config.js sets: window.SC_CONFIG = {url, anon}.
+   (anon key is public-safe; data protected by RLS)
    If not configured, the app falls back to localStorage demo mode. */
 const SC_CFG = window.SC_CONFIG || {};
 const SC_URL = SC_CFG.url || "";

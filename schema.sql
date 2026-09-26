@@ -56,7 +56,7 @@ alter table public.inquiries enable row level security;
 -- 尾货：任何人可读（撮合公开），任何人可发（MVP 低门槛，上线前加登录收紧写权限）
 drop policy if exists "listings read public" on public.listings;
 create policy "listings read public" on public.listings for select using (true);
-drop policy if exists "listings insert public" on public.listings for insert with check (true);
+drop policy if exists "listings insert public" on public.listings;
 
 -- 询盘：买家可提交（匿名插入）；读取仅限已登录（默认 deny，保护买家 PII）
 -- ⚠️ 上线前务必保留“查询仅登录可见”，否则买家邮箱/WhatsApp 会被任何人读到。
