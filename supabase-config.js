@@ -5,5 +5,5 @@
 // ============================================================
 window.SC_CONFIG = {
   url: "https://qraplgjkmtyhxymgtpvw.supabase.co",
-  anon: "PASTE_YOUR_ANON_KEY_HERE"
+  anon: "sb_publishable_rrYZ48rGgNaXmEnOLD0Y2g_LCAUjFBZ"
 };
