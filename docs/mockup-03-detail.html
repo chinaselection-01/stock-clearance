@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai · Lot Detail (设计稿)</title>
+<style>
+  :root{--ink:#15161D;--bg:#F6F5F2;--line:#E6E3DC;--prime:#E8470C;--ok:#1E7A4D;--muted:#6B6A66;--belt:#3A6EA5}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border-bottom:1px solid var(--line)}
+  .logo{font-weight:800;font-size:19px}.logo b{color:var(--prime)}
+  .nav .right{display:flex;gap:12px;align-items:center;font-size:14px}
+  .btn{border:1px solid var(--line);background:#fff;padding:7px 13px;border-radius:8px;font-size:14px;cursor:pointer}
+  .btn.prime{background:var(--prime);color:#fff;border-color:var(--prime)}
+  .crumb{padding:14px 24px;font-size:13px;color:var(--muted)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px 40px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+  .gallery .main{height:340px;background:linear-gradient(135deg,#EDEAE3,#D9D4CA);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#9a958b}
+  .gallery .thumbs{display:flex;gap:10px;margin-top:10px}
+  .gallery .thumbs div{flex:1;height:70px;background:#E3DED4;border-radius:10px}
+  .info h1{font-size:23px;font-weight:800;line-height:1.35}
+  .pricerow{display:flex;align-items:baseline;gap:12px;margin:14px 0}
+  .now{color:var(--prime);font-weight:800;font-size:30px}.was{color:var(--muted);text-decoration:line-through;font-size:16px}
+  .disc{background:#FFF3D6;color:#9A6B00;font-size:12px;padding:3px 9px;border-radius:999px;font-weight:700}
+  table.spec{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  table.spec td{border:1px solid var(--line);padding:9px 12px}
+  table.spec td:first-child{background:#F1EEE8;font-weight:700;width:40%}
+  .tier{margin:10px 0;font-size:13px;color:var(--muted)}
+  .tier b{color:var(--ink)}
+  .desc{margin:14px 0;font-size:14px;color:#333}
+  .supplier{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:14px}
+  .supplier .row{display:flex;align-items:center;gap:10px}
+  .supplier .av{width:42px;height:42px;border-radius:50%;background:#E3DED4;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6B6A66}
+  .supplier .badge{background:#EAF3EE;color:var(--ok);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700}
+  .supplier .meta{font-size:12px;color:var(--muted);margin-top:4px}
+  .quote{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;position:sticky;top:14px}
+  .quote h3{font-size:17px;margin-bottom:4px}
+  .quote p{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .quote input,.quote textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:14px;margin:6px 0;font-family:inherit}
+  .quote button{width:100%;background:var(--prime);color:#fff;border:0;padding:12px;border-radius:9px;font-size:15px;font-weight:700;margin-top:8px;cursor:pointer}
+  .quote .wa{width:100%;background:#25D366;color:#fff;border:0;padding:11px;border-radius:9px;font-size:14px;font-weight:700;margin-top:8px;cursor:pointer}
+  .tag{position:fixed;top:8px;right:8px;background:#15161D;color:#fff;font-size:11px;padding:4px 10px;border-radius:6px;z-index:9}
+  @media(max-width:860px){.wrap{grid-template-columns:1fr}.quote{position:static}}
+</style>
+</head>
+<body>
+<div class="tag">设计稿 · 非功能代码</div>
+<div class="nav">
+  <div class="logo">stock<b>-</b>clearance<b>.ai</b></div>
+  <div class="right"><span>中文 / EN</span><button class="btn">Sign in</button><button class="btn prime">Post Stock</button></div>
+</div>
+<div class="crumb">Home / Apparel / <b>Cotton T-shirt Overstock</b></div>
+
+<div class="wrap">
+  <div>
+    <div class="gallery">
+      <div class="main">MAIN IMAGE</div>
+      <div class="thumbs"><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div class="info">
+      <h1>Cotton T-shirt Overstock, 5 colors, 8,000 pcs</h1>
+      <div class="pricerow"><span class="now">$0.85</span><span class="was">$3.20</span><span class="disc">73% OFF</span></div>
+      <table class="spec">
+        <tr><td>MOQ</td><td>500 pcs</td></tr>
+        <tr><td>Stock qty</td><td>8,000 pcs</td></tr>
+        <tr><td>Condition</td><td>Brand-new overstock</td></tr>
+        <tr><td>Origin belt</td><td>Yiwu, Zhejiang 义乌</td></tr>
+        <tr><td>Brand</td><td>None / unbranded（无品牌）</td></tr>
+        <tr><td>Certification</td><td>Available on request</td></tr>
+      </table>
+      <div class="tier">Tiered price: <b>500–1999 pcs $0.85</b> · <b>2000–4999 pcs $0.78</b> · <b>≥5000 pcs $0.70</b></div>
+      <div class="desc">Mixed size S–XL, 180–220 gsm combed cotton. Single order cancellation lot, original tags removed. Photos show actual stock. Inspection / 验货 available in Yiwu by appointment.</div>
+      <div class="supplier">
+        <div class="row"><div class="av">L</div><div><div>Yiwu Likang Stock Co. <span class="badge">Verified</span></div><div class="meta">Response &lt; 6h · Member since 2026 · 38 lots sold</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="quote">
+      <h3>Request a Quote</h3>
+      <p>发起询盘 · 供应商将直接联系您</p>
+      <input placeholder="Your name">
+      <input placeholder="Email">
+      <input placeholder="WhatsApp (optional)">
+      <input placeholder="Quantity">
+      <textarea placeholder="Message / 留言"></textarea>
+      <button>Send inquiry</button>
+      <button class="wa">Chat on WhatsApp</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai · 发布尾货 (设计稿)</title>
+<style>
+  :root{--ink:#15161D;--bg:#F6F5F2;--line:#E6E3DC;--prime:#E8470C;--ok:#1E7A4D;--muted:#6B6A66;--belt:#3A6EA5}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border-bottom:1px solid var(--line)}
+  .logo{font-weight:800;font-size:19px}.logo b{color:var(--prime)}
+  .nav .right{display:flex;gap:12px;align-items:center;font-size:14px}
+  .btn{border:1px solid var(--line);background:#fff;padding:7px 13px;border-radius:8px;font-size:14px;cursor:pointer}
+  .btn.prime{background:var(--prime);color:#fff;border-color:var(--prime)}
+  .head{max-width:1100px;margin:0 auto;padding:24px 24px 0}
+  .head h1{font-size:22px}.head p{color:var(--muted);font-size:13px;margin-top:4px}
+  .layout{max-width:1100px;margin:0 auto;padding:18px 24px 40px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .form{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+  .form label{display:block;font-size:13px;font-weight:700;margin:14px 0 5px}
+  .form label:first-child{margin-top:0}
+  .form input,.form select,.form textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:14px;font-family:inherit}
+  .form .hint{font-size:12px;color:var(--muted);margin-top:3px}
+  .form .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .upload{border:2px dashed var(--line);border-radius:10px;padding:22px;text-align:center;color:var(--muted);font-size:13px;margin-top:6px}
+  .preview{background:#15161D;color:#fff;border-radius:14px;padding:22px;position:sticky;top:14px}
+  .preview .tag2{font-size:11px;background:var(--prime);padding:3px 9px;border-radius:999px;font-weight:700}
+  .preview h2{font-size:19px;margin:12px 0 6px;line-height:1.35}
+  .preview .pricerow{display:flex;align-items:baseline;gap:10px;margin:10px 0}
+  .preview .now{color:#FF8A4C;font-weight:800;font-size:24px}.preview .was{color:#9a958b;text-decoration:line-through;font-size:14px}
+  .preview table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+  .preview td{border:1px solid #333;padding:7px 9px;color:#E9E6E1}
+  .preview td:first-child{color:#9a958b;width:40%}
+  .preview .note{font-size:11px;color:#9a958b;margin-top:12px}
+  .tag{position:fixed;top:8px;right:8px;background:#15161D;color:#fff;font-size:11px;padding:4px 10px;border-radius:6px;z-index:9}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}.preview{position:static}}
+</style>
+</head>
+<body>
+<div class="tag">设计稿 · 非功能代码</div>
+<div class="nav">
+  <div class="logo">stock<b>-</b>clearance<b>.ai</b></div>
+  <div class="right"><span>中文 / EN</span><button class="btn">供应商后台</button></div>
+</div>
+<div class="head">
+  <h1>发布尾货 · Post your stock lot</h1>
+  <p>用中文填写，系统自动生成英文展示 · 带 * 为必填</p>
+</div>
+
+<div class="layout">
+  <div class="form">
+    <label>商品名称（中文）*</label>
+    <input placeholder="如：纯棉 T 恤尾单 5 个颜色">
+    <div class="row2">
+      <div><label>品类*</label><select><option>服装 Apparel</option><option>家居 Home</option><option>玩具 Toys</option><option>宠物 Pet</option><option>电子 Electronics</option></select></div>
+      <div><label>所在地 / 产业带*</label><select><option>义乌 Yiwu</option><option>广东 Guangdong</option><option>浙江 Zhejiang</option><option>福建 Fujian</option></select></div>
+    </div>
+    <div class="row2">
+      <div><label>数量*</label><input placeholder="8000"></div>
+      <div><label>单位</label><input placeholder="pcs / sets"></div>
+    </div>
+    <div class="row2">
+      <div><label>原价（单价）*</label><input placeholder="3.20"></div>
+      <div><label>清仓价（单价）*</label><input placeholder="0.85"></div>
+    </div>
+    <label>最小起订量 MOQ*</label>
+    <input placeholder="500">
+    <label>成色*</label>
+    <select><option>全新尾货 Brand-new overstock</option><option>退货 Customer returns</option><option>杂款 / 未分级 Mixed</option></select>
+    <label>品牌授权声明*</label>
+    <select><option>无品牌 Unbranded</option><option>自有品牌 Own brand</option><option>已授权 Authorized</option></select>
+    <label>描述（中文，将翻译为英文）</label>
+    <textarea placeholder="尺寸 S–XL、克重、是否剪标、是否可验货…"></textarea>
+    <label>图片 / 视频上传*</label>
+    <div class="upload">点击或拖拽上传（最多 12 张图 / 1 段视频）</div>
+    <div class="hint">提示：真实库存照片 + 可验货，询盘率更高</div>
+  </div>
+
+  <div class="preview">
+    <span class="tag2">EN · 买家看到的效果</span>
+    <h2>Cotton T-shirt Overstock, 5 colors, 8,000 pcs</h2>
+    <div class="pricerow"><span class="now">$0.85</span><span class="was">$3.20</span></div>
+    <table>
+      <tr><td>MOQ</td><td>500 pcs</td></tr>
+      <tr><td>Stock qty</td><td>8,000 pcs</td></tr>
+      <tr><td>Condition</td><td>Brand-new overstock</td></tr>
+      <tr><td>Origin belt</td><td>Yiwu, Zhejiang</td></tr>
+      <tr><td>Brand</td><td>Unbranded</td></tr>
+    </table>
+    <div class="note">* 英文由系统自动翻译生成，发布前可人工校正。品牌授权字段用于合规审核，仿牌将被拒。</div>
+    <button class="btn prime" style="width:100%;margin-top:14px;background:#E8470C">发布 / Publish</button>
+  </div>
+</div>
+</body>
+</html>

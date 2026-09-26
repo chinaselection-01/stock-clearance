@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai 上线部署手册</title>
+<style>
+  :root{--ink:#1d1c1a;--muted:#6b6a66;--line:#e7e3da;--prime:#0e7c66;--bg:#faf8f4;--card:#fff}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);margin:0;line-height:1.7}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 22px 60px}
+  h1{font-size:26px;margin:0 0 6px}
+  h2{font-size:19px;margin:34px 0 12px;border-left:4px solid var(--prime);padding-left:10px}
+  h3{font-size:16px;margin:22px 0 8px}
+  .sub{color:var(--muted);margin-bottom:8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+  .alert{background:#fff6ee;border:1px solid #f0cda8;color:#9a4a13;border-radius:12px;padding:14px 18px;margin:14px 0}
+  .ok{background:#eef7f2;border:1px solid #bfe3d2;color:#0c6a4f;border-radius:12px;padding:14px 18px;margin:14px 0}
+  ol,ul{margin:8px 0;padding-left:22px}
+  li{margin:6px 0}
+  code{background:#f1ede4;padding:1px 6px;border-radius:5px;font-size:13px;color:#7a3b12}
+  pre{background:#1d1c1a;color:#e8e4da;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.5}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left}
+  th{background:#f3efe7}
+  .tag{display:inline-block;background:var(--prime);color:#fff;border-radius:20px;font-size:12px;padding:2px 10px;margin-left:6px}
+  .step{font-weight:700;color:var(--prime)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>stock-clearance.ai · 上线部署手册 <span class="tag">MVP 静态版</span></h1>
+  <p class="sub">目标：把现有的纯前端 MVP（index.html + styles.css + app.js）部署上线，并让 <b>stock-clearance.ai</b> 指向它。</p>
+
+  <div class="ok">
+    ✅ <b>文件已就绪</b>：当前 MVP 是纯静态三件套，无构建步骤，可直接丢到任意静态托管（Vercel / Cloudflare Pages / Netlify）。部署只需这 3 个文件。
+  </div>
+
+  <div class="alert">
+    ⚠️ <b>上线前必须知道的一个局限</b>：当前版本数据存在<b>访客各自的浏览器（localStorage）</b>里。也就是说——你在我电脑/手机上发了一条尾货，别人打开网站<b>看不到</b>。这是"流程验证版"，不是生产版。真要让供应商和买家互相看得见、能撮合，需要下一步接 Supabase（见文末）。本手册先让域名活起来 + 验证界面。
+  </div>
+
+  <h2>一、选部署平台</h2>
+  <table>
+    <tr><th>平台</th><th>适合场景</th><th>成本</th><th>自定义域名</th></tr>
+    <tr><td><b>Vercel</b>（推荐）</td><td>最简单，拖文件即部署，自动 HTTPS</td><td>免费</td><td>支持，DNS 用 CNAME</td></tr>
+    <tr><td><b>Cloudflare Pages</b></td><td>若你的域名是在 Cloudflare 注册的，DNS 同面板一键最顺</td><td>免费</td><td>支持，同面板</td></tr>
+    <tr><td><b>Netlify</b></td><td>备选，拖放部署</td><td>免费</td><td>支持</td></tr>
+  </table>
+
+  <h2>二、路径 A：Vercel（最省事）</h2>
+  <h3><span class="step">步骤 1</span> 注册 / 登录 Vercel</h3>
+  <p>打开 <code>vercel.com</code> → 用 GitHub 或邮箱注册登录（免费个人版即可）。</p>
+  <h3><span class="step">步骤 2</span> 部署</h3>
+  <ol>
+    <li>首页点 <b>Add New → Project</b>；</li>
+    <li>不选 Git 仓库也行——直接把本地这三个文件（<code>index.html</code> <code>styles.css</code> <code>app.js</code>）拖进上传区；</li>
+    <li>Framework 选 <b>Other</b>，其余默认；</li>
+    <li>点 <b>Deploy</b>。约 30 秒后给你一个 <code>https://stock-clearance-xxx.vercel.app</code> 的临时域名，先点开确认网站正常。</li>
+  </ol>
+  <h3><span class="step">步骤 3</span> 绑定 stock-clearance.ai</h3>
+  <ol>
+    <li>进项目 <b>Settings → Domains</b>，输入 <code>stock-clearance.ai</code>，点 Add；</li>
+    <li>Vercel 会提示你去域名注册商加一条 DNS 记录（见第三节）；</li>
+    <li>加完记录后回到 Vercel，状态会从 <code>Invalid Configuration</code> 变 <code>Valid Configuration</code>，通常 5 分钟~数小时生效。</li>
+  </ol>
+
+  <h2>三、DNS 配置（关键一步，在你注册商后台做）</h2>
+  <p>无论用哪家托管，最后都要在 <b>域名注册商（Cloudflare 或 Porkbun）后台</b>加记录。两种做法二选一：</p>
+
+  <h3>做法 1（推荐）：CNAME 指向托管平台</h3>
+  <table>
+    <tr><th>类型</th><th>名称 / Name</th><th>值 / Target</th></tr>
+    <tr><td>CNAME</td><td><code>stock-clearance.ai</code> 或 <code>@</code></td><td>Vercel: <code>cname.vercel-dns.com</code><br>Cloudflare Pages: 按后台提示填<br>Netlify: <code>apex-loadbalancer.netlify.com</code></td></tr>
+  </table>
+
+  <h3>做法 2：A 记录指向平台 IP（某些平台提供）</h3>
+  <p>若平台给了 IPv4（如 Vercel 的 <code>76.76.21.21</code>），可在注册商加：</p>
+  <pre>类型: A
+名称: @
+值:   76.76.21.21</pre>
+
+  <div class="card">
+    <b>Cloudflare 注册商用户注意</b>：在 Cloudflare 面板里域名已自动托管，直接在 <b>DNS → Records</b> 加上述 CNAME/A 即可，且 SSL/HTTPS 默认开启，无需额外操作。
+    <br><b>Porkbun 注册商用户注意</b>：进 Porkbun 后台 <b>Domain Settings → DNS</b> 加记录，SSL 也默认有。
+  </div>
+
+  <h2>四、上线前必改项清单</h2>
+  <ul>
+    <li><b>footer 免责句</b>：当前写着"MVP demo·数据存于本地浏览器"——上线正式招商前把这句改掉或弱化，免得买家/供应商看到以为是玩具。</li>
+    <li><b>robots.txt</b>：确保没有屏蔽折扣/列表页（新手常犯）。可在根目录放一个 <code>robots.txt</code>：<pre>User-agent: *
+Allow: /</pre></li>
+    <li><b>sitemap.xml</b>（可选，SEO 用）：上线后补一个，列出主要页面和品类页。</li>
+    <li><b>HTTPS</b>：Vercel / Cloudflare / Netlify 都自动签发，无需手动。</li>
+    <li><b>移动端</b>：当前已做响应式，上线后用手机访问自检一遍。</li>
+  </ul>
+
+  <h2>五、上线后验证</h2>
+  <ol>
+    <li>浏览器开 <code>https://stock-clearance.ai</code>，确认跳 HTTPS 且网站正常；</li>
+    <li>命令行验证 DNS 生效：<pre>dig stock-clearance.ai +short</pre> 应返回平台 IP 或 CNAME；</li>
+    <li>用手机走一遍：切换中英文 → 拍照发帖 → 提交询盘 → 看 Inquiries 红点。</li>
+  </ol>
+
+  <div class="alert">
+    ⚠️ <b>建议补拿 stocklot.ai</b>：你这次只注册了主域名。老外 B2B 买家实际搜的词是 <code>stock lot</code>（不是 stock clearance）。强烈建议回头把 <code>stocklot.ai</code> 也拿下，做 301 跳转到主站或镜像内容，接住那批精准流量。多一份钱，但很值。
+  </div>
+
+  <h2>六、已知局限 & 下一步</h2>
+  <div class="card">
+    <b>当前版本 = 验证版</b>，数据不跨用户共享。要让平台真正撮合，下一步是接 <b>Supabase（Postgres 后端即服务）</b>：
+    <ul>
+      <li>供应商发帖 → 写入数据库 → 所有访客都能看到；</li>
+      <li>询盘写入数据库 → 供应商后台能看、能标记处理；</li>
+      <li>图片真正上传存储（不再压成本地）；</li>
+      <li>标题中文→英文自动翻译接真实 API。</li>
+    </ul>
+    这一步约几天工期，预算外包约 2–5 万。在此之前，你可以用"代运营"方式手动采集 100–300 条真实尾货，把界面填满做招商演示。
+  </div>
+
+  <div class="foot">stock-clearance.ai · 部署手册 · 生成于 MVP 上线阶段</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai · 商业方案</title>
+<style>
+  :root{
+    --ink:#15161D; --paper:#FFFFFF; --bg:#F6F5F2; --line:#E6E3DC;
+    --prime:#E8470C; --prime-soft:#FBE7DD; --ok:#1E7A4D; --muted:#6B6A66; --gold:#B8860B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;font-size:15px}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 28px 80px}
+  .cover{background:linear-gradient(135deg,#15161D 0%,#2A2230 60%,#E8470C 140%);color:#fff;border-radius:18px;padding:46px 40px;margin-bottom:34px}
+  .cover .logo{font-size:30px;font-weight:800;letter-spacing:.5px}
+  .cover .logo b{color:#FF8A4C}
+  .cover .tag{display:inline-block;margin-top:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:999px;font-size:13px}
+  .cover h1{font-size:25px;margin-top:20px;font-weight:700;line-height:1.45}
+  .cover p{margin-top:12px;color:#E9E6E1;font-size:15px;max-width:640px}
+  .kpis{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap}
+  .kpi b{display:block;font-size:24px;color:#FF8A4C}
+  .kpi span{font-size:12px;color:#D9D5CF}
+  h2{font-size:20px;margin:38px 0 12px;padding-left:12px;border-left:4px solid var(--prime)}
+  h3{font-size:16px;margin:20px 0 8px;color:#332F2A}
+  p,li{color:#2C2A26}
+  ul{margin:6px 0 6px 20px}
+  li{margin:4px 0}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:14px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr}.cover{padding:32px 22px}}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#F1EEE8;font-weight:700}
+  .pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:700}
+  .p0{background:#FBE7DD;color:#C23A06}
+  .p1{background:#FFF3D6;color:#9A6B00}
+  .p2{background:#EAF3EE;color:#1E7A4D}
+  .warn{background:#FFF7F2;border:1px solid #F3C9B5;border-left:4px solid var(--prime);border-radius:10px;padding:14px 16px;margin:14px 0}
+  .ok{background:#F2F8F4;border:1px solid #C9E4D4;border-left:4px solid var(--ok);border-radius:10px;padding:14px 16px;margin:14px 0}
+  .step{display:flex;gap:12px;align-items:flex-start;margin:10px 0}
+  .step .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+  .foot{margin-top:42px;color:var(--muted);font-size:12px;text-align:center}
+  .muted{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="logo">stock<b>-</b>clearance<b>.ai</b></div>
+    <div class="tag">全球尾货 / 清仓 B2B 撮合平台 · 商业方案 v0.1</div>
+    <h1>B2B 版「闲鱼」：把义乌五爱和中国产业带的尾货，用英语卖给全世界</h1>
+    <p>一个专门服务 <b>stock lot / overstock / clearance</b> 的跨境 B2B 垂直平台。供给侧是不会英文的国内工厂与库存商，需求侧是找不到中国尾货的海外批发商。</p>
+    <div class="kpis">
+      <div class="kpi"><b>1–3 折</b><span>尾货典型清仓价 vs 正品价</span></div>
+      <div class="kpi"><b>双边</b><span>你已有 supplier + buyer 资源</span></div>
+      <div class="kpi"><b>0 租金</b><span>自有房 + 母亲保洁的边际成本优势</span></div>
+    </div>
+  </div>
+
+  <h2>一、我们到底做什么（一句话定位）</h2>
+  <div class="card">
+    <p><b>stock-clearance.ai</b> = 全球尾货 B2B 撮合平台。把义乌五爱库存街、以及广东/浙江/福建等地产业带的<b>工厂尾货、库存积压、清仓货</b>，用结构化英文信息（图片 + 参数 + MOQ + 清仓价）组织起来，卖给海外折扣店、清货商、二手商、非洲/中东/东南亚批发商。</p>
+    <p class="muted">类比：闲鱼是 C 端个人闲置；1688 / Alibaba 是新品正品批发；我们是<b>专门做「lot / stock / clearance」的 B2B 垂直版闲鱼</b>，且天然面向老外。</p>
+  </div>
+
+  <h2>二、为什么是蓝海（市场机会）</h2>
+  <div class="card">
+    <h3>1. 尾货是海量刚需，且长期存在</h3>
+    <p>每个产业带工厂都有生产尾单、订单取消、换季积压。清仓价是正常价的 1–3 折，对价格敏感的海外买家极具吸引力。这是"永远清不完"的供给。</p>
+    <h3>2. 现有平台全部错位</h3>
+    <ul>
+      <li><b>1688 / Alibaba.com</b>：以新品、正品、高起订量为主，几乎不服务"低价尾货 lot"；</li>
+      <li><b>闲鱼</b>：C 端个人闲置，非跨境、非 B2B；</li>
+      <li><b>线下义乌五爱库存街</b>：全国最大库存商品集散地，但触达海外靠中介、层层抽佣、语言不通。</li>
+    </ul>
+    <p>→ 一个<b>专门服务 stock lot、且英文界面、面向老外</b>的 B2B 平台，目前没有强垂直玩家。</p>
+    <h3>3. 基础设施已成熟</h3>
+    <p>跨境支付（PayPal / Payoneer / T/T）、国际物流（阿里系、货代）、翻译工具都已到位。剩下的缺口是<b>"把尾货信息用英文结构化地摆出来 + 信任撮合"</b>，这正是平台要补的。</p>
+  </div>
+  <div class="warn"><b>需验证（不靠拍脑袋）：</b>① 义乌五爱库存街线上化的真实供给规模；② 老外通过线上找中国尾货的付费意愿与获客成本；③ 主要目标国（非洲/中东/东南亚/南美）的采购习惯。这些应在 MVP 阶段用真实询盘数据验证，而非先做重。</div>
+
+  <h2>三、双边痛点 & 平台价值</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>供给侧（国内工厂 / 档口 / 库存商）</h3>
+      <ul>
+        <li>尾货分散、信息不对称，清货靠熟人 + 线下市场；</li>
+        <li>不懂英文、不懂跨境，单个工厂没能力做独立站获客；</li>
+        <li>被海外中介抽走多层差价。</li>
+      </ul>
+      <p class="muted">平台价值：用中文填表 → 自动生成英文展示 → 直接触达老外。</p>
+    </div>
+    <div class="card">
+      <h3>需求侧（海外批发商 / 清货商）</h3>
+      <ul>
+        <li>来义乌成本高、语言不通、找货靠中介；</li>
+        <li>1688/阿里难找到"低价尾货 lot"；</li>
+        <li>缺少可信的、按 lot 组织的清仓货源。</li>
+      </ul>
+      <p class="muted">平台价值：一个英文界面，按品类 / 产业带 / 价格筛出真实库存。</p>
+    </div>
+  </div>
+
+  <h2>四、冷启动策略（你的最大杠杆）</h2>
+  <div class="ok"><b>关键判断：</b>这个生意最难的是"先有鸡还是先有蛋"。你破局靠的不是技术，而是<b>你本人就是外贸老手</b>——手上既有国内供应商（滑梯/杯壶/宠物用品产业带关系），又有海外买家（捷克 Aga24、Lulu 等）。起步速度远超纯技术团队。</div>
+  <div class="card">
+    <div class="step"><div class="n">1</div><div><b>先把货"填满"：</b>从义乌五爱 + 你已有产业带关系，人工采集 100–300 条真实尾货（拍照 + 翻译），让平台上线即"看起来很满"。你当第一批"超级买手 / 撮合人"。</div></div>
+    <div class="step"><div class="n">2</div><div><b>再把老外引来：</b>SEO（stock lot / clearance / overstock + 品类词）、TikTok/YouTube 展示"中国尾货淘货"内容、Facebook 清货商群组、Google 精准词广告。</div></div>
+    <div class="step"><div class="n">3</div><div><b>机器放大你的撮合：</b>早期不做支付、不做复杂后台，做"带询盘功能的尾货展示站 + 你的人工撮合"，先验证老外是否真从这里下单。</div></div>
+  </div>
+
+  <h2>五、盈利模式（带优先级建议）</h2>
+  <p>你勾选了：成交抽佣 + 会员/年费 + 广告/置顶，且要我给建议。我的建议如下（按落地优先级）：</p>
+  <table>
+    <tr><th>优先级</th><th>模式</th><th>怎么收</th><th>理由 / 时机</th></tr>
+    <tr><td><span class="pill p1">P1 先上</span></td><td><b>会员 / 年费 + 认证</b></td><td>供应商付费发帖、多发、认证标、数据看板</td><td>抽佣难收时（成交易绕开平台走 WhatsApp/线下），会员费是<b>确定性现金</b>，且筛出真供应商</td></tr>
+    <tr><td><span class="pill p1">P1 先上</span></td><td><b>置顶 / 推广位</b></td><td>类闲鱼"擦亮"，花钱买曝光</td><td>供给多了才有价值，但可早期小范围试</td></tr>
+    <tr><td><span class="pill p0">P0 目标</span></td><td><b>成交抽佣 3–8%</b></td><td>撮合成交后按金额阶梯抽</td><td>最干净的"平台型"变现，但<b>依赖信任 + 支付闭环</b>，闭环成熟后再主推</td></tr>
+    <tr><td><span class="pill p2">增量</span></td><td><b>服务抽成</b></td><td>验货/质检、代采佣金、物流撮合</td><td>比纯信息撮合更好收钱，<b>你有外贸经验能做</b></td></tr>
+  </table>
+  <div class="warn"><b>核心建议：</b>早期别指望抽佣（成交极易绕开平台）。采用<b>"供方付费优先、买方免费"</b>的冷启动变现——先把供给侧的钱收上来（会员/认证/置顶），抽佣等信任和支付闭环建好后再上。</div>
+
+  <h2>六、产品形态（对应设计稿页面）</h2>
+  <div class="card">
+    <ul>
+      <li><b>首页</b>：双语切换、Hero、按产业带/品类导航、精选 stock lots、供应商招商入口；</li>
+      <li><b>浏览 / 搜索页</b>：按品类、产业带、价格、MOQ 筛选，卡片展示（图 + 英文标题 + 清仓价/原价 + MOQ + 所在地）；</li>
+      <li><b>商品详情 / 询盘页</b>：大图、英文参数表、数量阶梯价、MOQ、发货地、库存、"Request a Quote" 按钮（留资 / WhatsApp / 邮箱）；</li>
+      <li><b>供应商发帖页</b>：中文填表 → 前端自动生成英文展示；</li>
+      <li><b>供应商后台</b>：我的库存、询盘管理、会员权益、数据（未来）；</li>
+      <li><b>买家中心</b>：收藏、询盘记录、订单（未来）。</li>
+    </ul>
+    <p class="muted">设计稿见同目录 mockup-01~04。</p>
+  </div>
+
+  <h2>七、技术架构建议（给以后开发，本版不实现）</h2>
+  <div class="card">
+    <ul>
+      <li><b>前端</b>：Next.js + Tailwind，内置中英 i18n；</li>
+      <li><b>后台 / 数据</b>：Supabase / Postgres（listings、users、inquiries）或 Django；</li>
+      <li><b>图片</b>：对象存储（Cloudflare R2 / 阿里 OSS）；</li>
+      <li><b>支付</b>：早期不强依赖（询盘制，成交线下/TT）；未来 Stripe / Payoneer；</li>
+      <li><b>部署 / 域名</b>：Vercel + 域名 stock-clearance.ai（.ai 域名约 $80–100/年）；</li>
+      <li><b>SEO 是生命线</b>：静态化、结构化数据 schema、多语言 hreflang。</li>
+    </ul>
+  </div>
+
+  <h2>八、合规与风险（尾货专属坑）</h2>
+  <div class="warn">
+    <ul>
+      <li><b>品牌侵权（头号大坑）：</b>仿牌 / 侵权清仓是红线。必须设"无品牌 / 自有品牌 / 授权"字段 + 平台免责声明，审核上线；</li>
+      <li><b>质检 / 认证：</b>尾货出口目的国仍有认证要求（你做外贸懂 LVD/EMC/RoHS 等），详情页应标注；</li>
+      <li><b>跨境收款合规：</b>大额走对公 / 报关，避免私账大进大出；</li>
+      <li><b>冷启动最大风险：</b>双边都没量。对策＝你先亲自把供给侧填"满"，再用内容把买方引来。</li>
+    </ul>
+  </div>
+
+  <h2>九、里程碑 & 预算（粗）</h2>
+  <table>
+    <tr><th>阶段</th><th>时间</th><th>动作</th><th>预算</th></tr>
+    <tr><td>M0</td><td>现在</td><td>商业方案 + 设计稿（本交付）</td><td>≈0</td></tr>
+    <tr><td>M1</td><td>1–2 月</td><td>设计确认 → 开发 MVP（浏览 + 发帖 + 询盘，不强依赖支付）</td><td>外包 2–5 万或自学</td></tr>
+    <tr><td>M2</td><td>3–4 月</td><td>导入 300+ 真实尾货（人工采集）、SEO + 内容引流</td><td>人力为主</td></tr>
+    <tr><td>M3</td><td>第 5 月起</td><td>跑通第一笔撮合，会员 / 认证收费上线</td><td>—</td></tr>
+  </table>
+  <div class="ok">你自有房无租金、母亲可顺手保洁，<b>边际成本极低</b>。但这是新摊子，建议先用"轻量 MVP + 你自己当撮合人"验证，别一上来重投入。</div>
+
+  <h2>十、我的核心判断（给你拍板用）</h2>
+  <div class="card">
+    <ol>
+      <li><b>赛道方向对。</b>且你有"supplier + buyer 双边资源 + 外贸经验"的稀缺起步优势，比纯草根团队成功率高得多。</li>
+      <li><b>破局点不是技术，是你亲自当第一批超级撮合人 + 用内容把老外引过来。</b></li>
+      <li><b>第一版别做重：</b>不做支付、不做复杂后台，做"带询盘的尾货展示站 + 人工撮合"，先验证老外是否真从这里下单。</li>
+      <li><b>变现上供方付费（会员/认证/置顶）优先于抽佣</b>，因为抽佣在信任闭环没建好前根本收不到。</li>
+    </ol>
+  </div>
+
+  <div class="foot">stock-clearance.ai 商业方案 v0.1 · 仅供内部决策 · 数据需 MVP 阶段用真实询盘验证</div>
+</div>
+</body>
+</html>

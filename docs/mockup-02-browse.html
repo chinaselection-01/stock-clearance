@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai · Browse (设计稿)</title>
+<style>
+  :root{--ink:#15161D;--bg:#F6F5F2;--line:#E6E3DC;--prime:#E8470C;--ok:#1E7A4D;--muted:#6B6A66;--belt:#3A6EA5}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border-bottom:1px solid var(--line)}
+  .logo{font-weight:800;font-size:19px}.logo b{color:var(--prime)}
+  .nav .right{display:flex;gap:12px;align-items:center;font-size:14px}
+  .btn{border:1px solid var(--line);background:#fff;padding:7px 13px;border-radius:8px;font-size:14px;cursor:pointer}
+  .btn.prime{background:var(--prime);color:#fff;border-color:var(--prime)}
+  .crumb{padding:14px 24px;font-size:13px;color:var(--muted)}
+  .layout{max-width:1180px;margin:0 auto;padding:0 24px 40px;display:grid;grid-template-columns:240px 1fr;gap:22px}
+  .filters{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;height:fit-content}
+  .filters h4{font-size:13px;margin:14px 0 8px;color:var(--belt)}
+  .filters h4:first-child{margin-top:0}
+  .fchk{display:flex;align-items:center;gap:8px;font-size:13px;margin:5px 0;color:#333}
+  .fchk input{accent-color:var(--prime)}
+  .frng{width:100%;font-size:12px;color:var(--muted)}
+  .main .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+  .main .top .count{font-size:14px}.main .top .count b{color:var(--prime)}
+  .main .top select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .lot{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .lot .img{height:140px;background:linear-gradient(135deg,#EDEAE3,#D9D4CA);display:flex;align-items:center;justify-content:center;color:#9a958b;font-size:13px}
+  .lot .body{padding:12px}
+  .lot .t{font-size:14px;font-weight:600;height:36px;overflow:hidden}
+  .lot .price{margin-top:6px}.lot .now{color:var(--prime);font-weight:800;font-size:17px}.lot .was{color:var(--muted);text-decoration:line-through;font-size:12px;margin-left:6px}
+  .lot .meta{margin-top:6px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+  .badge{display:inline-block;background:#EAF3EE;color:var(--ok);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700;margin-top:8px}
+  .tag{position:fixed;top:8px;right:8px;background:#15161D;color:#fff;font-size:11px;padding:4px 10px;border-radius:6px;z-index:9}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="tag">设计稿 · 非功能代码</div>
+<div class="nav">
+  <div class="logo">stock<b>-</b>clearance<b>.ai</b></div>
+  <div class="right"><span>中文 / EN</span><button class="btn">Sign in</button><button class="btn prime">Post Stock</button></div>
+</div>
+<div class="crumb">Home / Apparel / <b>Cotton T-shirt overstock</b></div>
+
+<div class="layout">
+  <aside class="filters">
+    <h4>Category 品类</h4>
+    <label class="fchk"><input type="checkbox" checked> Apparel 服装</label>
+    <label class="fchk"><input type="checkbox"> Home 家居</label>
+    <label class="fchk"><input type="checkbox"> Toys 玩具</label>
+    <label class="fchk"><input type="checkbox"> Pet 宠物</label>
+    <h4>Manufacturing belt 产业带</h4>
+    <label class="fchk"><input type="checkbox" checked> Yiwu 义乌</label>
+    <label class="fchk"><input type="checkbox"> Guangdong 广东</label>
+    <label class="fchk"><input type="checkbox"> Zhejiang 浙江</label>
+    <label class="fchk"><input type="checkbox"> Fujian 福建</label>
+    <h4>Price (per unit)</h4>
+    <input class="frng" type="range" min="0" max="20" value="5"> <span class="frng">$0 – $5</span>
+    <h4>MOQ</h4>
+    <label class="fchk"><input type="checkbox"> &lt; 100 pcs</label>
+    <label class="fchk"><input type="checkbox" checked> 100 – 500 pcs</label>
+    <label class="fchk"><input type="checkbox"> &gt; 500 pcs</label>
+    <h4>Condition 成色</h4>
+    <label class="fchk"><input type="checkbox" checked> Brand-new overstock</label>
+    <label class="fchk"><input type="checkbox"> Customer returns</label>
+    <label class="fchk"><input type="checkbox"> Mixed / ungraded</label>
+  </aside>
+
+  <section class="main">
+    <div class="top">
+      <div class="count"><b>1,284</b> stock lots found</div>
+      <select><option>Sort: Price low → high</option><option>Price high → low</option><option>Newest</option><option>MOQ low</option></select>
+    </div>
+    <div class="grid">
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Cotton T-shirt Overstock, 5 colors</div><div class="price"><span class="now">$0.85</span><span class="was">$3.20</span></div><div class="meta"><span>MOQ 500 pcs</span><span>Yiwu</span></div><span class="badge">Verified</span></div></div>
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Denim Jeans Mixed Lot, 600 pcs</div><div class="price"><span class="now">$2.30</span><span class="was">$9.00</span></div><div class="meta"><span>MOQ 300 pcs</span><span>Guangdong</span></div><span class="badge">Verified</span></div></div>
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Hoodies Returns, ungraded</div><div class="price"><span class="now">$1.90</span><span class="was">$7.50</span></div><div class="meta"><span>MOQ 200 pcs</span><span>Zhejiang</span></div><span class="badge">Verified</span></div></div>
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Socks Lot, 12,000 pairs</div><div class="price"><span class="now">$0.18</span><span class="was">$0.70</span></div><div class="meta"><span>MOQ 1000 pr</span><span>Zhejiang</span></div><span class="badge">Verified</span></div></div>
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Caps & Hats Overstock</div><div class="price"><span class="now">$0.45</span><span class="was">$1.80</span></div><div class="meta"><span>MOQ 500 pcs</span><span>Fujian</span></div><span class="badge">Verified</span></div></div>
+      <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Kids Wear Mixed, 900 pcs</div><div class="price"><span class="now">$1.10</span><span class="was">$4.20</span></div><div class="meta"><span>MOQ 300 pcs</span><span>Yiwu</span></div><span class="badge">Verified</span></div></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

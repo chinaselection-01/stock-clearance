@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stock-clearance.ai · Home (设计稿)</title>
+<style>
+  :root{--ink:#15161D;--bg:#F6F5F2;--line:#E6E3DC;--prime:#E8470C;--prime2:#FF8A4C;--ok:#1E7A4D;--muted:#6B6A66;--belt:#3A6EA5}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:#fff;border-bottom:1px solid var(--line)}
+  .logo{font-weight:800;font-size:20px}.logo b{color:var(--prime)}
+  .nav .right{display:flex;gap:14px;align-items:center;font-size:14px}
+  .lang{color:var(--muted);cursor:pointer}
+  .btn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer}
+  .btn.prime{background:var(--prime);color:#fff;border-color:var(--prime)}
+  .hero{background:linear-gradient(135deg,#15161D,#2A2230 55%,var(--prime) 150%);color:#fff;padding:54px 28px;text-align:center}
+  .hero h1{font-size:34px;font-weight:800;line-height:1.3}
+  .hero p{margin-top:14px;color:#E9E6E1;max-width:620px;margin-left:auto;margin-right:auto}
+  .search{margin:26px auto 0;max-width:640px;display:flex;background:#fff;border-radius:12px;overflow:hidden}
+  .search input{flex:1;border:0;padding:14px 16px;font-size:15px;outline:none}
+  .search button{background:var(--prime);color:#fff;border:0;padding:0 26px;font-size:15px;font-weight:700;cursor:pointer}
+  .belts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+  .belt{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 14px;border-radius:999px;font-size:13px}
+  .sec{max-width:1100px;margin:0 auto;padding:36px 28px}
+  .sec h2{font-size:20px;margin-bottom:4px}
+  .sec .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+  .cat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;font-size:13px;font-weight:600}
+  .cat span{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:4px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+  .lot{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .lot .img{height:150px;background:linear-gradient(135deg,#EDEAE3,#D9D4CA);display:flex;align-items:center;justify-content:center;color:#9a958b;font-size:13px}
+  .lot .body{padding:12px}
+  .lot .t{font-size:14px;font-weight:600;height:38px;overflow:hidden}
+  .lot .price{margin-top:6px}.lot .now{color:var(--prime);font-weight:800;font-size:18px}.lot .was{color:var(--muted);text-decoration:line-through;font-size:13px;margin-left:6px}
+  .lot .meta{margin-top:6px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+  .badge{display:inline-block;background:#EAF3EE;color:var(--ok);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700;margin-top:8px}
+  .cta{background:var(--prime-soft);border:1px solid #F3C9B5;border-radius:14px;padding:26px;display:flex;justify-content:space-between;align-items:center;margin-top:30px;flex-wrap:wrap;gap:14px}
+  .cta h3{font-size:18px}.cta p{color:var(--muted);font-size:13px;margin-top:4px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;padding:28px}
+  .tag{position:fixed;top:8px;right:8px;background:#15161D;color:#fff;font-size:11px;padding:4px 10px;border-radius:6px;z-index:9}
+  @media(max-width:860px){.cats,.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="tag">设计稿 · 非功能代码</div>
+<div class="nav">
+  <div class="logo">stock<b>-</b>clearance<b>.ai</b></div>
+  <div class="right">
+    <span class="lang">中文 / EN</span>
+    <button class="btn">Sign in</button>
+    <button class="btn prime">Post Stock</button>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Global Stock Lots, Clearance Prices</h1>
+  <p>Source excess inventory &amp; overstock directly from Yiwu Wuyuai and China's manufacturing belts. No middlemen, lot by lot.</p>
+  <div class="search">
+    <input placeholder="Search stock lots, categories, belts…">
+    <button>Search</button>
+  </div>
+  <div class="belts">
+    <span class="belt">Yiwu 义乌</span><span class="belt">Guangdong 广东</span><span class="belt">Zhejiang 浙江</span>
+    <span class="belt">Fujian 福建</span><span class="belt">Jiangsu 江苏</span><span class="belt">Shandong 山东</span>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>Browse by category</h2>
+  <div class="sub">按品类浏览 · 全部支持英文参数与 MOQ</div>
+  <div class="cats">
+    <div class="cat">Apparel 服装<span>T-shirts / jeans</span></div>
+    <div class="cat">Home 家居<span>textiles / decor</span></div>
+    <div class="cat">Toys 玩具<span>plush / puzzle</span></div>
+    <div class="cat">Electronics 电子<span>gadgets / parts</span></div>
+    <div class="cat">Pet 宠物<span>cat tree / beds</span></div>
+    <div class="cat">Shoes 鞋帽<span>sneakers / caps</span></div>
+  </div>
+</div>
+
+<div class="sec" style="padding-top:0">
+  <h2>Featured stock lots</h2>
+  <div class="sub">精选尾货 · 实时库存 · 验货可约</div>
+  <div class="grid">
+    <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Cotton T-shirt Overstock, 5 colors</div><div class="price"><span class="now">$0.85</span><span class="was">$3.20</span></div><div class="meta"><span>MOQ 500 pcs</span><span>Yiwu</span></div><span class="badge">Verified</span></div></div>
+    <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Cat Tree Mixed Lot, 800 sets</div><div class="price"><span class="now">$6.40</span><span class="was">$18.0</span></div><div class="meta"><span>MOQ 200 sets</span><span>Zhejiang</span></div><span class="badge">Verified</span></div></div>
+    <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Stainless Tumblers, 12oz, 3000pcs</div><div class="price"><span class="now">$1.10</span><span class="was">$4.50</span></div><div class="meta"><span>MOQ 1000 pcs</span><span>Zhejiang</span></div><span class="badge">Verified</span></div></div>
+    <div class="lot"><div class="img">IMG</div><div class="body"><div class="t">Plush Toys Returns Lot, 1200pcs</div><div class="price"><span class="now">$0.60</span><span class="was">$2.80</span></div><div class="meta"><span>MOQ 300 pcs</span><span>Guangdong</span></div><span class="badge">Verified</span></div></div>
+  </div>
+
+  <div class="cta">
+    <div><h3>Are you a Chinese supplier?</h3><p>用中文填表，系统自动生成英文展示 · 免费发布尾货</p></div>
+    <button class="btn prime">List your stock →</button>
+  </div>
+</div>
+
+<div class="foot">stock-clearance.ai · 设计稿首页 · EN 优先，中文可切换</div>
+</body>
+</html>
