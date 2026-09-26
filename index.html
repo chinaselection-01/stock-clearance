@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>stock-clearance.ai · Global Stock Lots</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#E8470C">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="StockClear">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,8 +55,22 @@
     stock-clearance.ai · Global B2B stock-lot &amp; clearance marketplace
   </footer>
 
+  <nav class="bottomnav">
+    <button onclick="go('home')"><span class="bn-ic">H</span><span class="bn-lb">Home</span></button>
+    <button onclick="go('browse')"><span class="bn-ic">B</span><span class="bn-lb">Browse</span></button>
+    <button class="bn-post" onclick="go('post')"><span class="bn-ic">+</span><span class="bn-lb">Post</span></button>
+    <button onclick="go('inquiries')"><span class="bn-ic">Q</span><span class="bn-lb">Inq</span></button>
+  </nav>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js").catch(function () {});
+      });
+    }
+  </script>
 </body>
 </html>

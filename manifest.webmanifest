@@ -1,0 +1,17 @@
+{
+  "name": "stock-clearance.ai — Global Stock Lots",
+  "short_name": "StockClear",
+  "description": "B2B marketplace for surplus, overstock, clearance and stock-lot inventory from China. Buyers browse & inquire; suppliers post stock in seconds.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F5F2",
+  "theme_color": "#E8470C",
+  "lang": "en",
+  "categories": ["business", "shopping"],
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
