@@ -1,7 +1,8 @@
 /* ============================================================
    stock-clearance.ai — MVP (browse + post + inquiry)
-   Pure vanilla JS, data persisted in localStorage.
-   Bilingual EN / 中文. No backend, no payment.
+   Vanilla JS. Data layer: Supabase (Postgres + Storage) when
+   configured, otherwise falls back to localStorage demo mode.
+   Bilingual EN / 中文. No payment.
    ============================================================ */
 
 /* ---------------- i18n ---------------- */
@@ -98,12 +99,25 @@ const BELTS = [["yw","belt_yw"],["gd","belt_gd"],["zj","belt_zj"],["fj","belt_fj
 const CONDS = [["new","cond_new"],["ret","cond_ret"],["mix","cond_mix"]];
 const BRANDS = [["un","brand_un"],["own","brand_own"],["auth","brand_auth"]];
 
+/* ---------------- Supabase config & client ---------------- */
+/* supabase-config.js (gitignored) sets: window.SC_CONFIG = {url, anon}.
+   Copy supabase-config.example.js -> supabase-config.js and fill your keys.
+   If not configured, the app falls back to localStorage demo mode. */
+const SC_CFG = window.SC_CONFIG || {};
+const SC_URL = SC_CFG.url || "";
+const SC_ANON = SC_CFG.anon || "";
+const USE_SUPABASE = !!(SC_URL && SC_ANON && window.supabase);
+const sb = USE_SUPABASE ? window.supabase.createClient(SC_URL, SC_ANON) : null;
+
 /* ---------------- state ---------------- */
 const LS_LOTS="sc_lots_v1", LS_INQ="sc_inquiries_v1", LS_LANG="sc_lang";
 let lang = localStorage.getItem(LS_LANG) || "en";
 let view="home", param=null;
 let draftImg=null;
 let filters={cat:"",belt:"",cond:"",q:"",sort:"price_asc"};
+let LOTS=[];            // cached listings
+let INQ=[];             // cached inquiries
+let lotsLoaded=false;
 
 /* ---------------- helpers ---------------- */
 const $ = (s,r=document)=>r.querySelector(s);
@@ -114,8 +128,14 @@ function money(n){ return "$"+Number(n).toFixed(2); }
 function offPct(now,was){ if(!was||was<=now) return 0; return Math.round((1-now/was)*100); }
 function ts(){ return new Date().toISOString(); }
 function fmtTime(iso){ try{ return new Date(iso).toLocaleString(lang==="zh"?"zh-CN":"en-US"); }catch(e){ return iso; } }
+function dataUrlToBlob(dataUrl){
+  const parts=dataUrl.split(","); const mime=(parts[0].match(/:(.*?);/)||[])[1]||"image/jpeg";
+  const bin=atob(parts[1]); const arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return new Blob([arr],{type:mime});
+}
 
-/* ---------------- seed data ---------------- */
+/* ---------------- seed data (demo fallback only) ---------------- */
 function seedLots(){
   const now=Date.now();
   return [
@@ -129,20 +149,68 @@ function seedLots(){
     {id:"L1008",titleCn:"LED 灯泡尾单 5000 个",titleEn:"LED Bulbs Overstock, 5,000 pcs",cat:"ele",belt:"gd",qty:5000,unit:"pcs",priceWas:0.90,priceNow:0.22,moq:500,cond:"new",brand:"own",descCn:"9W 暖白，自有品牌。",descEn:"9W warm white, own brand.",supplier:{name:"Shenzhen LEDPro",verified:true,whatsapp:"8613800000007",resp:"< 6h"},createdAt:now-1000*60*2,featured:false}
   ];
 }
-function getLots(){
-  let ls=localStorage.getItem(LS_LOTS);
-  if(!ls){ const s=seedLots(); localStorage.setItem(LS_LOTS,JSON.stringify(s)); return s; }
-  try{ return JSON.parse(ls); }catch(e){ const s=seedLots(); localStorage.setItem(LS_LOTS,JSON.stringify(s)); return s; }
-}
-function saveLots(arr){ localStorage.setItem(LS_LOTS,JSON.stringify(arr)); }
-function getInquiries(){ try{ return JSON.parse(localStorage.getItem(LS_INQ)||"[]"); }catch(e){ return []; } }
-function saveInquiries(arr){ localStorage.setItem(LS_INQ,JSON.stringify(arr)); }
-function getLot(id){ return getLots().find(l=>l.id===id); }
+
+/* ---------------- data layer ---------------- */
 function title(l){ return lang==="zh" ? (l.titleCn||l.titleEn) : (l.titleEn||l.titleCn); }
 function catLabel(v){ const m=CATS.find(c=>c[0]===v); return m?t(m[1]):v; }
 function beltLabel(v){ const m=BELTS.find(c=>c[0]===v); return m?t(m[1]):v; }
 function condLabel(v){ const m=CONDS.find(c=>c[0]===v); return m?t(m[1]):v; }
 function brandLabel(v){ const m=BRANDS.find(c=>c[0]===v); return m?t(m[1]):v; }
+
+function getLotsLocal(){
+  let ls=localStorage.getItem(LS_LOTS);
+  if(!ls){ const s=seedLots(); localStorage.setItem(LS_LOTS,JSON.stringify(s)); return s; }
+  try{ return JSON.parse(ls); }catch(e){ const s=seedLots(); localStorage.setItem(LS_LOTS,JSON.stringify(s)); return s; }
+}
+function saveLotsLocal(arr){ localStorage.setItem(LS_LOTS,JSON.stringify(arr)); }
+function getInquiriesLocal(){ try{ return JSON.parse(localStorage.getItem(LS_INQ)||"[]"); }catch(e){ return []; } }
+function saveInquiriesLocal(arr){ localStorage.setItem(LS_INQ,JSON.stringify(arr)); }
+function getLot(id){ return LOTS.find(l=>l.id===id); }
+
+/* map DB row <-> app lot object */
+function rowToLot(r){
+  return {
+    id:r.id, titleCn:r.title_cn, titleEn:r.title_en, cat:r.cat, belt:r.belt,
+    qty:r.qty, unit:r.unit, priceWas:Number(r.price_was), priceNow:Number(r.price_now),
+    moq:r.moq, cond:r.cond, brand:r.brand, descCn:r.desc_cn, descEn:r.desc_en,
+    img:r.img, specs:r.specs||{},
+    supplier:{name:r.supplier_name, verified:r.supplier_verified, whatsapp:r.supplier_whatsapp, resp:r.supplier_resp},
+    createdAt: r.created_at? new Date(r.created_at).getTime() : Date.now(),
+    featured: r.featured
+  };
+}
+function lotToRow(l){
+  return {
+    id:l.id, title_cn:l.titleCn, title_en:l.titleEn, cat:l.cat, belt:l.belt,
+    qty:l.qty, unit:l.unit, price_was:l.priceWas, price_now:l.priceNow,
+    moq:l.moq, cond:l.cond, brand:l.brand, desc_cn:l.descCn, desc_en:l.descEn,
+    img:l.img, specs:l.specs||{},
+    supplier_name:l.supplier&&l.supplier.name, supplier_whatsapp:l.supplier&&l.supplier.whatsapp,
+    supplier_verified:l.supplier?!!l.supplier.verified:false, supplier_resp:l.supplier&&l.supplier.resp,
+    featured: !!l.featured, created_at: new Date(l.createdAt||Date.now()).toISOString()
+  };
+}
+
+async function ensureLots(){
+  if(lotsLoaded) return;
+  if(USE_SUPABASE){
+    const {data,error}=await sb.from("listings").select("*").order("created_at",{ascending:false});
+    if(error){ console.error("load listings failed",error); LOTS=[]; }
+    else LOTS=(data||[]).map(rowToLot);
+  } else { LOTS=getLotsLocal(); }
+  lotsLoaded=true;
+}
+async function ensureInquiries(){
+  if(USE_SUPABASE){
+    const {data,error}=await sb.from("inquiries").select("*").order("created_at",{ascending:false});
+    if(error){ console.error("load inquiries failed",error); INQ=[]; }
+    else INQ=(data||[]).map(r=>({
+      id:r.id, lotId:r.lot_id, lotTitle:r.lot_title, name:r.name, email:r.email,
+      whatsapp:r.whatsapp, qty:r.qty, message:r.message, status:r.status||"new",
+      createdAt: r.created_at? new Date(r.created_at).getTime():Date.now()
+    }));
+  } else { INQ=getInquiriesLocal(); }
+}
 
 /* ---------------- card ---------------- */
 function lotCard(l){
@@ -167,7 +235,7 @@ function render(){
   $("#nav-home").textContent=t("nav_home");
   $("#nav-browse").textContent=t("nav_browse");
   $("#nav-post").textContent=t("nav_post");
-  const inq=getInquiries().filter(i=>i.status!=="done").length;
+  const inq=INQ.filter(i=>i.status!=="done").length;
   $("#nav-inq").innerHTML = t("nav_inq") + (inq?`<span class="badge-count">${inq}</span>`:"");
   if(view==="home") return renderHome();
   if(view==="browse") return renderBrowse();
@@ -177,7 +245,7 @@ function render(){
 }
 
 function renderHome(){
-  const lots=getLots();
+  const lots=LOTS;
   const feat = lots.filter(l=>l.featured).slice(0,4);
   const cats = CATS.map(([v,k])=>`<div class="cat" onclick="goBeltCat('cat','${v}')">${t(k)}<span>${v.toUpperCase()}</span></div>`).join("");
   const belts = BELTS.map(([v,k])=>`<span class="belt" onclick="goBeltCat('belt','${v}')">${beltLabel(v)}</span>`).join("");
@@ -214,7 +282,7 @@ function renderHome(){
 }
 
 function renderBrowse(){
-  const all=getLots();
+  const all=LOTS;
   let list=all.slice();
   if(filters.cat) list=list.filter(l=>l.cat===filters.cat);
   if(filters.belt) list=list.filter(l=>l.belt===filters.belt);
@@ -372,6 +440,8 @@ function renderPost(){
               <div><label>${esc(t("f_color"))}</label><input id="p-color" oninput="previewPost()" placeholder="混色"></div>
             </div>
             <label>${esc(t("f_desc"))}</label><textarea id="p-desc" oninput="previewPost()" placeholder="是否剪标、是否可验货、包装方式…"></textarea>
+            <label>${esc(t("f_supplier"))}</label><input id="p-supplier" oninput="previewPost()" placeholder="如：义乌 XX 库存商">
+            <label>${esc(t("f_wa_sup"))}</label><input id="p-wa-sup" oninput="previewPost()" placeholder="8613800000000">
           </details>
 
           <button class="btn prime" style="width:100%;margin-top:16px" onclick="publishLot()">${esc(t("publish"))}</button>
@@ -474,7 +544,7 @@ function previewPost(){
   if(row){ row.style.display = specs.length?"":"none"; $("#pv-specs").textContent = specs.join(" · "); }
 }
 
-function publishLot(){
+async function publishLot(){
   const g=id=>$("#"+id);
   const qty=parseInt(g("p-qty").value);
   if(!draftImg||isNaN(qty)){ g("p-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请先拍照/上传图片，并填写数量":"Please add a photo and quantity")}</div>`; return; }
@@ -482,32 +552,53 @@ function publishLot(){
   const now=parseFloat(g("p-now").value)||0, was=parseFloat(g("p-was").value)||0, moq=parseInt(g("p-moq").value)||0;
   const unit=g("p-unit").value.trim()||"pcs", titleCn=g("p-title").value.trim();
   const descCn=g("p-desc").value.trim();
+  const supName=g("p-supplier").value.trim()||"StockClearance.ai";
+  const supWa=g("p-wa-sup").value.trim()||"";
   const s={dim:(g("p-dim").value||"").trim(),size:(g("p-size").value||"").trim(),cap:(g("p-cap").value||"").trim(),weight:(g("p-weight").value||"").trim(),material:(g("p-material").value||"").trim(),color:(g("p-color").value||"").trim()};
-  const lots=getLots();
   const id="U"+(Date.now()).toString().slice(-8);
-  lots.unshift({id,titleCn,titleEn:titleCn||"Stock lot",cat,belt,qty,unit,priceWas:was,priceNow:now,moq,cond,brand,descCn,descEn:descCn,
-    img:draftImg, specs:s,
-    supplier:{name:"您 / Your store",verified:false,whatsapp:"",resp:"—"},createdAt:Date.now(),featured:false});
-  saveLots(lots); draftImg=null;
+  let imgUrl=draftImg;
+  const lot={id,titleCn,titleEn:titleCn||"Stock lot",cat,belt,qty,unit,priceWas:was,priceNow:now,moq,cond,brand,descCn,descEn:descCn,
+    img:imgUrl, specs:s,
+    supplier:{name:supName,verified:false,whatsapp:supWa,resp:"—"},createdAt:Date.now(),featured:false};
+  if(USE_SUPABASE){
+    try{
+      const blob=dataUrlToBlob(draftImg);
+      const path=id+".jpg";
+      const {error:upErr}=await sb.storage.from("listing-images").upload(path, blob, {contentType:"image/jpeg", upsert:true});
+      if(!upErr){ const {data:u}=sb.storage.from("listing-images").getPublicUrl(path); imgUrl=u.publicUrl; lot.img=imgUrl; }
+      else console.warn("image upload failed, storing dataURL", upErr);
+    }catch(e){ console.warn("image upload error", e); }
+    const {error}=await sb.from("listings").insert(lotToRow(lot));
+    if(error){ g("p-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* Publish failed: ${esc(error.message)}</div>`; return; }
+    lotsLoaded=false; await ensureLots();
+  } else {
+    const lots=getLotsLocal(); lots.unshift(lot); saveLotsLocal(lots); LOTS=lots;
+  }
+  draftImg=null;
   g("p-result").innerHTML=`<div class="ok-msg">${esc(t("published"))}</div>`;
   setTimeout(()=>go("browse"),700);
 }
 
-function submitInquiry(lotId){
+async function submitInquiry(lotId){
   const g=id=>$("#"+id);
   const name=g("iq-name").value.trim(), email=g("iq-email").value.trim(), wa=g("iq-wa").value.trim(), qty=g("iq-qty").value.trim(), msg=g("iq-msg").value.trim();
-  if(!name||!email||!qty){ g("iq-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* 请填写 姓名 / 邮箱 / 数量</div>`; return; }
-  const l=getLot(lotId);
-  const inq=getInquiries();
-  inq.unshift({id:"I"+Date.now(),lotId,lotTitle:title(l),name,email,whatsapp:wa,qty,message:msg,createdAt:ts(),status:"new"});
-  saveInquiries(inq);
+  if(!name||!email||!qty){ g("iq-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请填写 姓名 / 邮箱 / 数量":"Name / Email / Qty required")}</div>`; return; }
+  const l=getLot(lotId); if(!l){ return; }
+  const inq={id:"I"+Date.now(),lotId,lotTitle:title(l),name,email,whatsapp:wa,qty,message:msg,status:"new",createdAt:Date.now()};
+  if(USE_SUPABASE){
+    const {error}=await sb.from("inquiries").insert({id:inq.id,lot_id:lotId,lot_title:inq.lotTitle,name,email,whatsapp:wa,qty,message:msg,status:"new",created_at:new Date(inq.createdAt).toISOString()});
+    if(error){ g("iq-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* Failed: ${esc(error.message)}</div>`; return; }
+    await ensureInquiries();
+  } else {
+    const arr=getInquiriesLocal(); arr.unshift(inq); saveInquiriesLocal(arr); INQ=arr;
+  }
   g("iq-result").innerHTML=`<div class="ok-msg">${esc(t("sent"))}</div>`;
-  // refresh nav badge after a tick
   setTimeout(render,300);
 }
 
-function renderInquiries(){
-  const inq=getInquiries();
+async function renderInquiries(){
+  if(!INQ.length && USE_SUPABASE) await ensureInquiries();
+  const inq=INQ;
   const rows = inq.length ? inq.map(i=>`
     <div class="inq">
       <div class="h"><span class="lot">${esc(i.lotTitle)}</span>
@@ -522,20 +613,34 @@ function renderInquiries(){
       <div class="msg">${esc(i.message||t("none"))}</div>
       ${i.status!=="done"?`<button class="btn" style="margin-top:10px" onclick="markHandled('${i.id}')">${esc(t("inq_mark"))}</button>`:""}
     </div>`).join("") : `<div class="empty">${esc(t("inq_empty"))}</div>`;
+  const note = USE_SUPABASE ? `<div class="sec-sub" style="color:#cf3f0a">${esc(lang==="zh"?"询盘已实时存入后台数据库，可在 Supabase 控制台查看；上线前接入登录后此处仅显示你的询盘。":"Inquiries are stored in the backend DB — view them in the Supabase dashboard. After adding auth, this page shows only your own inquiries.")}</div>` : "";
   app().innerHTML = `
     <div class="wrap"><div class="sec-title">${esc(t("inq_title"))}</div>
     <div class="sec-sub">${esc(t("inspect"))}</div>
+    ${note}
     <div class="inq-list">${rows}</div></div>`;
 }
-function markHandled(id){
-  const inq=getInquiries(); const x=inq.find(i=>i.id===id); if(x)x.status="done"; saveInquiries(inq); render();
+async function markHandled(id){
+  const x=INQ.find(i=>i.id===id); if(x)x.status="done";
+  if(USE_SUPABASE){ try{ await sb.from("inquiries").update({status:"done"}).eq("id",id); }catch(e){ console.error(e); } }
+  else { saveInquiriesLocal(INQ); }
+  render();
 }
 
 /* ---------------- nav actions ---------------- */
-function go(v,p){ view=v; param=p||null; window.scrollTo(0,0); render(); }
+async function go(v,p){ view=v; param=p||null; window.scrollTo(0,0); await ensureLots(); render(); }
 function setLang(l){ lang=l; localStorage.setItem(LS_LANG,l); render(); }
 function doSearch(){ const q=$("#q"); if(q) filters.q=q.value.trim(); go("browse"); }
 function goBeltCat(type,v){ if(type==="cat") filters.cat=v; else filters.belt=v; filters.q=""; go("browse"); }
 
 /* ---------------- boot ---------------- */
-render();
+(async ()=>{
+  await ensureLots();
+  await ensureInquiries();
+  render();
+  const mb=$("#mode-banner");
+  if(mb && !USE_SUPABASE){
+    mb.style.display="block";
+    mb.innerHTML = `<b>Demo mode</b> · 数据仅存于本地浏览器。配置 Supabase 后供应商发帖将彼此可见、询盘入后台共享。参见 SUPABASE_SETUP.md。`;
+  }
+})();
