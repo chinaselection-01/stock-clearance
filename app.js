@@ -246,6 +246,7 @@ function render(){
 
 function renderHome(){
   const lots=LOTS;
+  const POPULAR_SEARCHES=[{slug:"overstock",label:"Overstock lots"},{slug:"liquidation",label:"Liquidation stock"},{slug:"closeout",label:"Closeout deals"},{slug:"clearance",label:"Clearance sale"},{slug:"stock-lots",label:"Stock lots"},{slug:"clothing-overstock",label:"Clothing overstock"},{slug:"electronics-overstock",label:"Electronics overstock"},{slug:"pet-overstock",label:"Pet overstock"}];
   const feat = lots.filter(l=>l.featured).slice(0,4);
   const cats = CATS.map(([v,k])=>`<div class="cat" onclick="goBeltCat('cat','${v}')">${t(k)}<span>${v.toUpperCase()}</span></div>`).join("");
   const belts = BELTS.map(([v,k])=>`<span class="belt" onclick="goBeltCat('belt','${v}')">${beltLabel(v)}</span>`).join("");
@@ -259,6 +260,11 @@ function renderHome(){
       <p>${esc(t("hero_s"))}</p>
       <div class="search"><input id="q" placeholder="${esc(t("search_ph"))}" value="${esc(filters.q)}"><button onclick="doSearch()">${esc(t("search_btn"))}</button></div>
       <div class="belts">${belts}</div>
+    </div>
+    <div class="wrap">
+      <div class="sec-title">Popular searches</div>
+      <div class="sec-sub">What buyers search — clearance &amp; overstock keywords</div>
+      <div class="pops">${POPULAR_SEARCHES.map(p=>`<a class="pop" href="landing/${p.slug}.html">${esc(p.label)}</a>`).join("")}</div>
     </div>
     <div class="wrap">
       <div class="sec-title">${esc(t("cat_title"))}</div>
