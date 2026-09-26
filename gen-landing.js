@@ -39,6 +39,26 @@ function collection(slug, en) {
   };
 }
 
+function faqData() {
+  return [
+    { q: "How do I buy overstock and clearance stock from China?", a: "Browse live lots on stock-clearance.ai, open a listing, and send an inquiry with your target quantity. Suppliers reply with pricing and shipping terms. All trade is wholesale B2B; there is no retail checkout." },
+    { q: "What is the minimum order (MOQ)?", a: "MOQ is shown on each listing and varies by lot. Because the goods are already produced, many surplus lots are available in single-pallet or single-carton quantities." },
+    { q: "Do suppliers ship worldwide?", a: "Yes. Suppliers arrange global shipping by sea or air freight; logistics are agreed directly between buyer and supplier." },
+    { q: "Is stock-clearance.ai a retailer?", a: "No. It is a B2B marketplace connecting global buyers with Chinese surplus-stock suppliers. It does not hold inventory or process payments." }
+  ];
+}
+function faqJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqData().map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  };
+}
+
 function relatedLinks(currentSlug) {
   return KW.filter(k => k.slug !== currentSlug).map(k =>
     `<a class="rel" href="${k.slug}.html">${k.en.h1}</a>`
@@ -49,7 +69,7 @@ function page(k) {
   const en = spreadIntro(k.en), zh = spreadIntro(k.zh);
   const L = { cat: k.cat, en, zh };
   const canonical = DOMAIN + "/landing/" + k.slug + ".html";
-  const jsonld = JSON.stringify([breadcrumb(k.slug, k.en.h1), collection(k.slug, k.en)]);
+  const jsonld = JSON.stringify([breadcrumb(k.slug, k.en.h1), collection(k.slug, k.en), faqJsonLd()]);
 
   // intro paragraphs (English default for SEO crawlers)
   const introEn = k.en.intro.map((p, i) => `<p data-i18n="intro${i}">${p}</p>`).join("\n      ");
@@ -102,6 +122,11 @@ function page(k) {
       <div class="sec-title small">Related searches</div>
       <div class="rels">${relatedLinks(k.slug)}</div>
     </div>
+
+    <section class="faq">
+      <div class="sec-title">Frequently asked questions</div>
+      ${faqData().map(f => `<div class="qa"><h3>${f.q}</h3><p>${f.a}</p></div>`).join("\n      ")}
+    </section>
   </div>
 
   <footer class="foot">

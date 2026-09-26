@@ -1,0 +1,33 @@
+# stock-clearance.ai
+
+> stock-clearance.ai is a global B2B marketplace where international buyers source surplus, overstock, clearance, liquidation and stock-lot inventory directly from verified Chinese suppliers in the Yiwu Wuyuai market and major China industrial belts (Zhejiang, Guangdong, Jiangsu). Buyers browse live lots, request quotes, and trade wholesale with no middlemen.
+
+## What it is
+- A B2B clearinghouse for excess inventory, not a retail store.
+- Suppliers post stock lots with photos, quantity, original and clearance price, and MOQ.
+- Buyers inquire and negotiate directly with suppliers.
+- Inventory spans apparel, electronics, home goods, pet supplies, toys, and shoes & socks.
+
+## Core pages
+- [Home / Browse lots](https://www.stock-clearance.ai/): live global stock-lot inventory.
+- [Overstock](https://www.stock-clearance.ai/landing/overstock.html): wholesale overstock deals.
+- [Liquidation](https://www.stock-clearance.ai/landing/liquidation.html): liquidation stock from China.
+- [Clearance](https://www.stock-clearance.ai/landing/clearance.html): clearance merchandise.
+- [Closeout](https://www.stock-clearance.ai/landing/closeout.html): closeout inventory.
+- [Stock lots](https://www.stock-clearance.ai/landing/stock-lots.html): bulk stock lots.
+- [Surplus](https://www.stock-clearance.ai/landing/surplus.html): surplus goods.
+- [Bulk clearance](https://www.stock-clearance.ai/landing/bulk-clearance.html): bulk clearance lots.
+- [Last stock discount](https://www.stock-clearance.ai/landing/last-stock-discount.html): last-stock discounts.
+- [Clothing overstock](https://www.stock-clearance.ai/landing/clothing-overstock.html): apparel overstock.
+- [Electronics overstock](https://www.stock-clearance.ai/landing/electronics-overstock.html): electronics overstock.
+- [Home clearance](https://www.stock-clearance.ai/landing/home-clearance.html): home goods clearance.
+- [Pet overstock](https://www.stock-clearance.ai/landing/pet-overstock.html): pet supplies overstock.
+- [Toy closeout](https://www.stock-clearance.ai/landing/toy-closeout.html): toy closeouts.
+- [Shoes & socks stock lot](https://www.stock-clearance.ai/landing/shoes-socks-stocklot.html): footwear stock lots.
+
+## Frequently asked questions
+- **How do I buy overstock and clearance stock from China?** Browse live lots on stock-clearance.ai, open a lot, and send an inquiry with your target quantity. Suppliers reply with pricing and shipping. All trade is wholesale B2B; there is no retail checkout.
+- **What is the minimum order (MOQ)?** It varies by lot and is shown on each listing. Many surplus lots are available in single-pallet or single-carton quantities because the goods are already produced.
+- **Do you ship worldwide?** Suppliers ship to global destinations via sea and air freight; logistics are arranged between buyer and supplier.
+- **Are suppliers verified?** Listings show supplier contact (WhatsApp) and verification status where available; buyers transact directly with suppliers.
+- **Is stock-clearance.ai a retailer?** No. It is a marketplace that connects global buyers with Chinese surplus-stock suppliers; it does not hold inventory or process payments.

@@ -156,6 +156,13 @@ table.spec td:first-child{background:#F1EEE8;font-weight:700;width:40%}
 
 /* ---------- footer ---------- */
 .foot{text-align:center;color:var(--muted);font-size:12px;padding:30px;border-top:1px solid var(--line);margin-top:40px}
+
+/* ---------- faq (GEO) ---------- */
+.faq{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.faq .qa{padding:14px 0;border-bottom:1px solid var(--line)}
+.faq .qa:last-child{border-bottom:0}
+.faq .qa h3{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.faq .qa p{font-size:14px;color:var(--muted)}
 .crumb{padding:14px 24px;font-size:13px;color:var(--muted);max-width:1180px;margin:0 auto}
 .crumb a:hover{color:var(--prime)}
 
