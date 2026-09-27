@@ -11,8 +11,9 @@
 -- ============================================================
 
 -- 1. 安全视图：白名单列，刻意不含 supplier_whatsapp
-create or replace view public.listings_public
-with (security_definer) as
+--    （Postgres 视图默认以所有者权限读基表，无需额外参数；
+--      `with (security_definer)` 不是合法参数，会报 22023）
+create or replace view public.listings_public as
 select
   id, title_cn, title_en, cat, belt, qty, unit,
   price_was, price_now, moq, cond, brand,
@@ -31,6 +32,6 @@ revoke select on public.listings from authenticated;
 
 -- 说明：
 --  * 供应商发布（insert）不受影响，仍写基表；
---  * 视图经 security_definer 以定义者权限读基表，返回白名单列；
+--  * 视图以定义者（postgres）权限读基表，返回白名单列；
 --  * 即使有人拿 anon key 直接 from('listings').select('*')，
 --    也会因无 select 权限被拒，拿不到 supplier_whatsapp。
