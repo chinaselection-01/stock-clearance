@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "StockClearance",
+    "slug": "stock-clearance-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "stockclearance",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0F172A"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.stockclearance.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Used to upload stock photos when posting inventory.",
+        "NSCameraUsageDescription": "Used to take photos of your stock when posting inventory."
+      }
+    },
+    "android": {
+      "package": "ai.stockclearance.app",
+      "versionCode": 1,
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
+      "adaptiveIcon": {
+        "backgroundColor": "#0F172A"
+      }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to upload stock images.",
+          "cameraPermission": "The app uses your camera to photograph your stock."
+        }
+      ],
+      [
+        "expo-localization"
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  }
+}
