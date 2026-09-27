@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const KW = require("./landing-keywords.js");
 
-const DOMAIN = "https://stock-clearance.ai";
+const DOMAIN = "https://www.stock-clearance.ai";
 const OUT = path.join(__dirname, "landing");
 if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
 

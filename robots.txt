@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stock-clearance.ai/sitemap.xml
+Sitemap: https://www.stock-clearance.ai/sitemap.xml

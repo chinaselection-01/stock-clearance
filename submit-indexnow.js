@@ -8,26 +8,26 @@ const keyFile = fs.readdirSync('.').find(f => /^[0-9a-f]{8}-[0-9a-f-]+\.txt$/.te
 if (!keyFile) { console.error('未找到 IndexNow 密钥文件 (<uuid>.txt)'); process.exit(1); }
 const key = fs.readFileSync(keyFile, 'utf8').trim();
 
-const HOST = 'stock-clearance.ai';
+const HOST = 'www.stock-clearance.ai';
 const KEY_LOCATION = `https://${HOST}/${keyFile}`;
 
 // 待收录 URL 列表（与 sitemap.xml 保持一致）
 const urlList = [
-  'https://stock-clearance.ai/',
-  'https://stock-clearance.ai/landing/overstock.html',
-  'https://stock-clearance.ai/landing/liquidation.html',
-  'https://stock-clearance.ai/landing/closeout.html',
-  'https://stock-clearance.ai/landing/clearance.html',
-  'https://stock-clearance.ai/landing/stock-lots.html',
-  'https://stock-clearance.ai/landing/surplus.html',
-  'https://stock-clearance.ai/landing/bulk-clearance.html',
-  'https://stock-clearance.ai/landing/last-stock-discount.html',
-  'https://stock-clearance.ai/landing/clothing-overstock.html',
-  'https://stock-clearance.ai/landing/electronics-overstock.html',
-  'https://stock-clearance.ai/landing/home-clearance.html',
-  'https://stock-clearance.ai/landing/pet-overstock.html',
-  'https://stock-clearance.ai/landing/toy-closeout.html',
-  'https://stock-clearance.ai/landing/shoes-socks-stocklot.html',
+  'https://www.stock-clearance.ai/',
+  'https://www.stock-clearance.ai/landing/overstock.html',
+  'https://www.stock-clearance.ai/landing/liquidation.html',
+  'https://www.stock-clearance.ai/landing/closeout.html',
+  'https://www.stock-clearance.ai/landing/clearance.html',
+  'https://www.stock-clearance.ai/landing/stock-lots.html',
+  'https://www.stock-clearance.ai/landing/surplus.html',
+  'https://www.stock-clearance.ai/landing/bulk-clearance.html',
+  'https://www.stock-clearance.ai/landing/last-stock-discount.html',
+  'https://www.stock-clearance.ai/landing/clothing-overstock.html',
+  'https://www.stock-clearance.ai/landing/electronics-overstock.html',
+  'https://www.stock-clearance.ai/landing/home-clearance.html',
+  'https://www.stock-clearance.ai/landing/pet-overstock.html',
+  'https://www.stock-clearance.ai/landing/toy-closeout.html',
+  'https://www.stock-clearance.ai/landing/shoes-socks-stocklot.html',
 ];
 
 const payload = JSON.stringify({ host: HOST, key, keyLocation: KEY_LOCATION, urlList });
