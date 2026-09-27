@@ -24,7 +24,7 @@ const I18N = {
     brand:"Brand", cert:"Certification", tiered:"Tiered price", inspect:"Inspection available in belt by appointment.",
     verified:"Verified", unverified:"New supplier",
     req_quote:"Request a Quote", req_sub:"Send an inquiry — supplier will contact you directly",
-    send:"Send inquiry", wa:"Chat on WhatsApp", sent:"✅ Inquiry sent! The supplier will contact you shortly.", contact_gated:"💬 Supplier contact (WhatsApp) appears here after you send an inquiry.",
+    send:"Send inquiry", wa:"Chat on WhatsApp", sent:"✅ Inquiry sent! The supplier will contact you shortly.", contact_gated:"💬 Send an inquiry and we'll route your contact details to the supplier — they'll reach out to you directly.", contact_routed:"✅ Inquiry sent! We've routed your contact to the supplier. They will reach out to you via the platform.",
     post_title:"Post your stock lot", post_sub:"Fill in Chinese, system generates English. * required",
     f_title:"Product name (Chinese) *", f_cat:"Category *", f_belt:"Location / belt *",
     f_qty:"Quantity *", f_unit:"Unit", f_was:"Original price (unit) *", f_now:"Clearance price (unit) *",
@@ -66,7 +66,7 @@ const I18N = {
     brand:"品牌", cert:"认证", tiered:"阶梯价", inspect:"可约在产业地带看验货。",
     verified:"已认证", unverified:"新供应商",
     req_quote:"发起询盘", req_sub:"提交询盘，供应商会直接联系您",
-    send:"发送询盘", wa:"用 WhatsApp 联系", sent:"✅ 询盘已发送！供应商会尽快联系您。", contact_gated:"💬 发送询盘后，这里会显示供应商的 WhatsApp 联系方式。",
+    send:"发送询盘", wa:"用 WhatsApp 联系", sent:"✅ 询盘已发送！供应商会尽快联系您。", contact_gated:"💬 发送询盘后，平台会把您的联系方式转给供应商，由供应商主动联系您。", contact_routed:"✅ 询盘已发送！平台已把您的联系方式转交给供应商，供应商将通过平台主动联系您。",
     post_title:"发布尾货", post_sub:"用中文填写，系统生成英文。带 * 为必填",
     f_title:"商品名称（中文）*", f_cat:"品类 *", f_belt:"所在地 / 产业带 *",
     f_qty:"数量 *", f_unit:"单位", f_was:"原价（单价）*", f_now:"清仓价（单价）*",
@@ -194,7 +194,13 @@ function lotToRow(l){
 async function ensureLots(){
   if(lotsLoaded) return;
   if(USE_SUPABASE){
-    const {data,error}=await sb.from("listings").select("*").order("created_at",{ascending:false});
+    let data,error;
+    // B 档：优先读安全视图（不含供应商手机号）；视图尚未创建时回退基表，保证过渡期可用
+    ({data,error}=await sb.from("listings_public").select("*").order("created_at",{ascending:false}));
+    if(error){
+      console.warn("listings_public unavailable, fallback to listings:", error&&error.message);
+      ({data,error}=await sb.from("listings").select("*").order("created_at",{ascending:false}));
+    }
     if(error){ console.error("load listings failed",error); LOTS=[]; }
     else LOTS=(data||[]).map(rowToLot);
   } else { LOTS=getLotsLocal(); }
@@ -600,14 +606,11 @@ async function submitInquiry(lotId){
   revealSupplierContact(lotId);
 }
 
-// 防爬：供应商 WhatsApp 不在公开页面暴露，发询盘后才揭示
+// 防爬（B 档）：详情页不返回供应商个人 WhatsApp，询盘后改为“平台转接”提示
 function revealSupplierContact(lotId){
-  const l=getLot(lotId); if(!l) return;
   const c=document.getElementById("supplier-contact"); if(!c) return;
-  const wn=(l.supplier&&l.supplier.whatsapp)||"8613800000000";
-  const wt=encodeURIComponent("Hi, I'm interested in: "+title(l)+" (stock-clearance.ai)");
   c.className="contact-revealed";
-  c.innerHTML=`<a class="wa-link" href="https://wa.me/${wn}?text=${wt}" target="_blank" rel="noopener">${esc(t("wa"))}: ${esc((l.supplier&&l.supplier.name)||"Supplier")}</a>`;
+  c.innerHTML=`<div class="ok-msg" style="background:#EAF6EC;border-color:#BFE3C6;color:#1f7a37">${esc(t("contact_routed"))}</div>`;
 }
 
 async function renderInquiries(){
