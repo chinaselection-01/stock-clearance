@@ -119,6 +119,9 @@ table.spec td:first-child{background:#F1EEE8;font-weight:700;width:40%}
 .quote input,.quote textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:14px;margin:6px 0;font-family:inherit}
 .quote button{width:100%;background:var(--prime);color:#fff;border:0;padding:12px;border-radius:9px;font-size:15px;font-weight:700;margin-top:8px;cursor:pointer}
 .quote .wa{width:100%;background:#25D366;color:#fff;border:0;padding:11px;border-radius:9px;font-size:14px;font-weight:700;margin-top:8px;cursor:pointer}
+.contact-gated{margin-top:10px;padding:11px 12px;border:1px dashed var(--line);border-radius:9px;font-size:13px;color:var(--muted);background:#FBFAF7;text-align:center}
+.contact-revealed{margin-top:10px;padding:0}
+.contact-revealed .wa-link{display:block;width:100%;text-align:center;background:#25D366;color:#fff;border:0;padding:11px;border-radius:9px;font-size:14px;font-weight:700;text-decoration:none}
 .ok-msg{background:#EAF3EE;color:var(--ok);border:1px solid #BFE3CC;border-radius:10px;padding:14px;font-size:14px;margin-top:10px}
 @media(max-width:860px){.detail{grid-template-columns:1fr}.quote{position:static}}
 

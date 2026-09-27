@@ -24,7 +24,7 @@ const I18N = {
     brand:"Brand", cert:"Certification", tiered:"Tiered price", inspect:"Inspection available in belt by appointment.",
     verified:"Verified", unverified:"New supplier",
     req_quote:"Request a Quote", req_sub:"Send an inquiry — supplier will contact you directly",
-    send:"Send inquiry", wa:"Chat on WhatsApp", sent:"✅ Inquiry sent! The supplier will contact you shortly.",
+    send:"Send inquiry", wa:"Chat on WhatsApp", sent:"✅ Inquiry sent! The supplier will contact you shortly.", contact_gated:"💬 Supplier contact (WhatsApp) appears here after you send an inquiry.",
     post_title:"Post your stock lot", post_sub:"Fill in Chinese, system generates English. * required",
     f_title:"Product name (Chinese) *", f_cat:"Category *", f_belt:"Location / belt *",
     f_qty:"Quantity *", f_unit:"Unit", f_was:"Original price (unit) *", f_now:"Clearance price (unit) *",
@@ -66,7 +66,7 @@ const I18N = {
     brand:"品牌", cert:"认证", tiered:"阶梯价", inspect:"可约在产业地带看验货。",
     verified:"已认证", unverified:"新供应商",
     req_quote:"发起询盘", req_sub:"提交询盘，供应商会直接联系您",
-    send:"发送询盘", wa:"用 WhatsApp 联系", sent:"✅ 询盘已发送！供应商会尽快联系您。",
+    send:"发送询盘", wa:"用 WhatsApp 联系", sent:"✅ 询盘已发送！供应商会尽快联系您。", contact_gated:"💬 发送询盘后，这里会显示供应商的 WhatsApp 联系方式。",
     post_title:"发布尾货", post_sub:"用中文填写，系统生成英文。带 * 为必填",
     f_title:"商品名称（中文）*", f_cat:"品类 *", f_belt:"所在地 / 产业带 *",
     f_qty:"数量 *", f_unit:"单位", f_was:"原价（单价）*", f_now:"清仓价（单价）*",
@@ -333,8 +333,6 @@ function renderDetail(){
   if(!l){ go("browse"); return; }
   const off=offPct(l.priceNow,l.priceWas);
   const qtyTiers = l.moq + "–1999 " + money(l.priceNow) + " · 2000–4999 " + money((l.priceNow*0.92).toFixed(2)) + " · ≥5000 " + money((l.priceNow*0.85).toFixed(2));
-  const waNum = (l.supplier&&l.supplier.whatsapp)||"8613800000000";
-  const waText = encodeURIComponent("Hi, I'm interested in: "+title(l)+" (stock-clearance.ai)");
   const verified = l.supplier && l.supplier.verified;
   const s=l.specs||{};
   const specRows = [
@@ -381,7 +379,7 @@ function renderDetail(){
           <input id="iq-qty" placeholder="${esc(t("inq_qty"))} *" type="number">
           <textarea id="iq-msg" placeholder="${esc(t("inq_msg"))}"></textarea>
           <button onclick="submitInquiry('${l.id}')">${esc(t("send"))}</button>
-          <button class="wa" onclick="window.open('https://wa.me/${waNum}?text=${waText}','_blank')">${esc(t("wa"))}</button>
+          <div id="supplier-contact" class="contact-gated">${esc(t("contact_gated"))}</div>
           <div id="iq-result"></div>
         </div>
       </div>
@@ -599,7 +597,17 @@ async function submitInquiry(lotId){
     const arr=getInquiriesLocal(); arr.unshift(inq); saveInquiriesLocal(arr); INQ=arr;
   }
   g("iq-result").innerHTML=`<div class="ok-msg">${esc(t("sent"))}</div>`;
-  setTimeout(render,300);
+  revealSupplierContact(lotId);
+}
+
+// 防爬：供应商 WhatsApp 不在公开页面暴露，发询盘后才揭示
+function revealSupplierContact(lotId){
+  const l=getLot(lotId); if(!l) return;
+  const c=document.getElementById("supplier-contact"); if(!c) return;
+  const wn=(l.supplier&&l.supplier.whatsapp)||"8613800000000";
+  const wt=encodeURIComponent("Hi, I'm interested in: "+title(l)+" (stock-clearance.ai)");
+  c.className="contact-revealed";
+  c.innerHTML=`<a class="wa-link" href="https://wa.me/${wn}?text=${wt}" target="_blank" rel="noopener">${esc(t("wa"))}: ${esc((l.supplier&&l.supplier.name)||"Supplier")}</a>`;
 }
 
 async function renderInquiries(){
