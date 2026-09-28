@@ -47,7 +47,8 @@ const I18N = {
     f_dim:"Dimensions (L×W×H)", f_size:"Size / spec", f_cap:"Capacity", f_weight:"Weight", f_material:"Material", f_color:"Color",
     sup_banner:"Suppliers wanted — post free, photo-only", sup_banner_p:"We are filling inventory first. Free listing now. You take the photo, we do the rest.",
     how_join:"How to bring suppliers on board", join1:"Walk Yiwu Wuyuai & belt markets, invite booth owners directly", join2:"Post for them — you/assistant shoot photos, they just confirm", join3:"Share the invite link in WeChat stock-lot groups",
-    time:"Time"
+    time:"Time",
+    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone."
   },
   zh: {
     nav_home:"首页", nav_browse:"浏览", nav_post:"发布尾货", nav_inq:"询盘",
@@ -89,7 +90,8 @@ const I18N = {
     f_dim:"尺寸（长×宽×高）", f_size:"规格 / 大小", f_cap:"容量", f_weight:"重量", f_material:"材质", f_color:"颜色",
     sup_banner:"正在招募供应商 · 免费发布 · 拍照即可发", sup_banner_p:"我们优先把库存填满。现在免费上架，你只管拍照，其余交给我们。",
     how_join:"如何把供应商拉进来", join1:"扫义乌五爱及各地产业带市场，直接邀请档口老板", join2:"代运营发帖——你/帮手拍照，老板只确认", join3:"在尾货微信群发邀请链接，老客户转介绍",
-    time:"时间"
+    time:"时间",
+    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。"
   }
 };
 
@@ -118,6 +120,7 @@ let filters={cat:"",belt:"",cond:"",q:"",sort:"price_asc"};
 let LOTS=[];            // cached listings
 let INQ=[];             // cached inquiries
 let lotsLoaded=false;
+let session=null, userId=null, profile=null, acctOpen=false;
 
 /* ---------------- helpers ---------------- */
 const $ = (s,r=document)=>r.querySelector(s);
@@ -184,7 +187,7 @@ function lotToRow(l){
     id:l.id, title_cn:l.titleCn, title_en:l.titleEn, cat:l.cat, belt:l.belt,
     qty:l.qty, unit:l.unit, price_was:l.priceWas, price_now:l.priceNow,
     moq:l.moq, cond:l.cond, brand:l.brand, desc_cn:l.descCn, desc_en:l.descEn,
-    img:l.img, specs:l.specs||{},
+    img:l.img, specs:l.specs||{}, user_id: userId||null,
     supplier_name:l.supplier&&l.supplier.name, supplier_whatsapp:l.supplier&&l.supplier.whatsapp,
     supplier_verified:l.supplier?!!l.supplier.verified:false, supplier_resp:l.supplier&&l.supplier.resp,
     featured: !!l.featured, created_at: new Date(l.createdAt||Date.now()).toISOString()
@@ -208,9 +211,9 @@ async function ensureLots(){
 }
 async function ensureInquiries(){
   if(USE_SUPABASE){
-    const {data,error}=await sb.from("inquiries").select("*").order("created_at",{ascending:false});
+    const {data,error}=await sb.from("inquiries").select("*, lot:listings(user_id)").order("created_at",{ascending:false});
     if(error){ console.error("load inquiries failed",error); INQ=[]; }
-    else INQ=(data||[]).map(r=>({
+    else INQ=(data||[]).filter(r=> (r.user_id===userId) || (r.lot&&r.lot.user_id===userId)).map(r=>({
       id:r.id, lotId:r.lot_id, lotTitle:r.lot_title, name:r.name, email:r.email,
       whatsapp:r.whatsapp, qty:r.qty, message:r.message, status:r.status||"new",
       createdAt: r.created_at? new Date(r.created_at).getTime():Date.now()
@@ -243,11 +246,13 @@ function render(){
   $("#nav-post").textContent=t("nav_post");
   const inq=INQ.filter(i=>i.status!=="done").length;
   $("#nav-inq").innerHTML = t("nav_inq") + (inq?`<span class="badge-count">${inq}</span>`:"");
+  const nm=$("#nav-me"); if(nm) nm.textContent=t("acct");
   if(view==="home") return renderHome();
   if(view==="browse") return renderBrowse();
   if(view==="detail") return renderDetail();
   if(view==="post") return renderPost();
   if(view==="inquiries") return renderInquiries();
+  if(view==="mylist") return renderMyListings();
 }
 
 function renderHome(){
@@ -558,12 +563,16 @@ async function publishLot(){
   const g=id=>$("#"+id);
   const qty=parseInt(g("p-qty").value);
   if(!draftImg||isNaN(qty)){ g("p-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请先拍照/上传图片，并填写数量":"Please add a photo and quantity")}</div>`; return; }
+  if(USE_SUPABASE){
+    const ok=await ensureLoggedIn();
+    if(!ok) return;
+  }
   const cat=g("p-cat").value||"oth", belt=g("p-belt").value||"yw", cond=g("p-cond").value||"mix", brand=g("p-brand").value||"un";
   const now=parseFloat(g("p-now").value)||0, was=parseFloat(g("p-was").value)||0, moq=parseInt(g("p-moq").value)||0;
   const unit=g("p-unit").value.trim()||"pcs", titleCn=g("p-title").value.trim();
   const descCn=g("p-desc").value.trim();
-  const supName=g("p-supplier").value.trim()||"StockClearance.ai";
-  const supWa=g("p-wa-sup").value.trim()||"";
+  const supName=(profile&&profile.display_name)||g("p-supplier").value.trim()||"StockClearance.ai";
+  const supWa=(profile&&profile.whatsapp)||g("p-wa-sup").value.trim()||"";
   const s={dim:(g("p-dim").value||"").trim(),size:(g("p-size").value||"").trim(),cap:(g("p-cap").value||"").trim(),weight:(g("p-weight").value||"").trim(),material:(g("p-material").value||"").trim(),color:(g("p-color").value||"").trim()};
   const id="U"+(Date.now()).toString().slice(-8);
   let imgUrl=draftImg;
@@ -594,9 +603,10 @@ async function submitInquiry(lotId){
   const name=g("iq-name").value.trim(), email=g("iq-email").value.trim(), wa=g("iq-wa").value.trim(), qty=g("iq-qty").value.trim(), msg=g("iq-msg").value.trim();
   if(!name||!email||!qty){ g("iq-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请填写 姓名 / 邮箱 / 数量":"Name / Email / Qty required")}</div>`; return; }
   const l=getLot(lotId); if(!l){ return; }
+  if(USE_SUPABASE){ const ok=await ensureLoggedIn(); if(!ok) return; }
   const inq={id:"I"+Date.now(),lotId,lotTitle:title(l),name,email,whatsapp:wa,qty,message:msg,status:"new",createdAt:Date.now()};
   if(USE_SUPABASE){
-    const {error}=await sb.from("inquiries").insert({id:inq.id,lot_id:lotId,lot_title:inq.lotTitle,name,email,whatsapp:wa,qty,message:msg,status:"new",created_at:new Date(inq.createdAt).toISOString()});
+    const {error}=await sb.from("inquiries").insert({id:inq.id,lot_id:lotId,lot_title:inq.lotTitle,name,email,whatsapp:wa,qty,message:msg,status:"new",user_id:userId,created_at:new Date(inq.createdAt).toISOString()});
     if(error){ g("iq-result").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* Failed: ${esc(error.message)}</div>`; return; }
     await ensureInquiries();
   } else {
@@ -630,7 +640,7 @@ async function renderInquiries(){
       <div class="msg">${esc(i.message||t("none"))}</div>
       ${i.status!=="done"?`<button class="btn" style="margin-top:10px" onclick="markHandled('${i.id}')">${esc(t("inq_mark"))}</button>`:""}
     </div>`).join("") : `<div class="empty">${esc(t("inq_empty"))}</div>`;
-  const note = USE_SUPABASE ? `<div class="sec-sub" style="color:#cf3f0a">${esc(lang==="zh"?"询盘已实时存入后台数据库，可在 Supabase 控制台查看；上线前接入登录后此处仅显示你的询盘。":"Inquiries are stored in the backend DB — view them in the Supabase dashboard. After adding auth, this page shows only your own inquiries.")}</div>` : "";
+  const note = USE_SUPABASE ? `<div class="sec-sub" style="color:#1f7a37">${esc(lang==="zh"?"这里只显示与你相关的询盘：你发出的询盘，以及别人对你发布的尾货的询盘。":"This page shows only inquiries relevant to you: ones you sent, and ones buyers sent on your own listings.")}</div>` : "";
   app().innerHTML = `
     <div class="wrap"><div class="sec-title">${esc(t("inq_title"))}</div>
     <div class="sec-sub">${esc(t("inspect"))}</div>
@@ -644,6 +654,138 @@ async function markHandled(id){
   render();
 }
 
+/* ---------------- auth / accounts ---------------- */
+async function initAuth(){
+  if(!USE_SUPABASE) return;
+  try{
+    const { data:{session:s} } = await sb.auth.getSession();
+    await applySession(s, true);
+  }catch(e){ console.warn("auth init", e); }
+  sb.auth.onAuthStateChange((_e, s)=>{ applySession(s, false); });
+}
+async function applySession(s, first){
+  session=s; userId = (s&&s.user)? s.user.id : null;
+  profile=null;
+  if(userId){
+    try{ const {data}=await sb.from('profiles').select('*').eq('id',userId).maybeSingle(); profile=data||null; }catch(e){}
+  } else if(first){
+    // 首次进入无会话：尝试匿名自动建号，实现“拍照发即生成账号”
+    try{
+      const {data,error}=await sb.auth.signInAnonymously();
+      if(!error&&data.session){ session=data.session; userId=data.session.user.id; const {data:p}=await sb.from('profiles').select('*').eq('id',userId).maybeSingle(); profile=p||null; }
+    }catch(e){}
+  }
+  updateAccountBtn();
+  if(acctOpen) renderAccount();
+}
+function updateAccountBtn(){
+  const b=$("#nav-account"); if(!b) return;
+  if(!USE_SUPABASE){ b.textContent=t("acct"); return; }
+  if(userId){ b.textContent = (profile&&profile.display_name)? profile.display_name : t("acct_guest"); }
+  else b.textContent = t("acct_login_t");
+}
+function openAccount(){ if(!USE_SUPABASE){ alert(t("acct_login_t")+": 需配置 Supabase 后端"); return; } acctOpen=true; renderAccount(); }
+function closeAccount(){ acctOpen=false; const m=$("#acct-modal"); if(m) m.style.display="none"; }
+async function sendMagicLink(email){
+  if(!email) return;
+  const {error}=await sb.auth.signInWithOtp({email, options:{emailRedirectTo: window.location.origin+"/"}});
+  const r=$("#acct-msg");
+  if(error){ r.innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; }
+  else r.innerHTML=`<div class="ok-msg">${esc(t("acct_link_sent"))}</div>`;
+}
+async function upgradeAccount(email){
+  if(!email) return;
+  const {error}=await sb.auth.updateUser({email});
+  const r=$("#acct-msg");
+  if(error){ r.innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; }
+  else r.innerHTML=`<div class="ok-msg">${esc(t("acct_link_sent"))}</div>`;
+}
+async function saveProfile(){
+  if(!userId) return;
+  const name=$("#acct-name").value.trim();
+  const wa=$("#acct-wa").value.trim();
+  const company=$("#acct-company").value.trim();
+  const {error}=await sb.from('profiles').upsert({id:userId, display_name:name, whatsapp:wa, company});
+  const r=$("#acct-msg");
+  if(error){ r.innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; }
+  else { profile={...profile, display_name:name, whatsapp:wa, company}; r.innerHTML=`<div class="ok-msg">${esc(t("acct_saved"))}</div>`; updateAccountBtn(); }
+}
+async function uploadAvatar(file){
+  if(!file||!userId) return;
+  const path=userId+"/"+Date.now()+".jpg";
+  const {error}=await sb.storage.from('avatars').upload(path, file, {contentType:"image/jpeg", upsert:true});
+  if(error){ $("#acct-msg").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; return; }
+  const {data:u}=sb.storage.from('avatars').getPublicUrl(path);
+  const {error:e2}=await sb.from('profiles').update({avatar_url:u.publicUrl}).eq('id',userId);
+  if(!e2 && profile) profile={...profile, avatar_url:u.publicUrl};
+  if(!e2) renderAccount();
+}
+function signOut(){
+  sb.auth.signOut();
+  profile=null; userId=null; session=null;
+  closeAccount(); render();
+}
+async function ensureLoggedIn(){
+  if(!USE_SUPABASE) return true;
+  if(userId) return true;
+  try{ const {data,error}=await sb.auth.signInAnonymously(); if(!error&&data.session){ await applySession(data.session,false); return true; } }catch(e){}
+  openAccount(); return false;
+}
+function renderAccount(){
+  const m=$("#acct-modal"); if(!m) return;
+  m.style.display="flex";
+  let html=`<div class="acct-panel"><div class="acct-head"><b>${esc(t("acct"))}</b><button class="x" onclick="closeAccount()">×</button></div><div id="acct-msg"></div>`;
+  if(!userId){
+    html+=`<p>${esc(t("acct_login_t"))}</p>
+      <input id="acct-email" placeholder="${esc(t("acct_email_ph"))}">
+      <button class="btn prime" onclick="sendMagicLink(document.getElementById('acct-email').value)">${esc(t("acct_send"))}</button>`;
+  } else {
+    const isGuest = !session || !session.user || !session.user.email;
+    const av = (profile&&profile.avatar_url)?`<img src="${esc(profile.avatar_url)}" class="avatar">`:`<div class="avatar ph">${esc((profile&&profile.display_name||"G")[0]||"G")}</div>`;
+    html+=`<div class="acct-id">${av}<div><div class="nm">${esc(profile&&profile.display_name || t("acct_guest"))}</div><div class="em">${esc((session&&session.user&&session.user.email)|| t("acct_as_guest"))}</div></div></div>`;
+    if(isGuest){
+      html+=`<div class="acct-up"><b>${esc(t("acct_upgrade_t"))}</b><p>${esc(t("acct_upgrade_p"))}</p>
+        <input id="acct-up-email" placeholder="${esc(t("acct_email_ph"))}">
+        <button class="btn" onclick="upgradeAccount(document.getElementById('acct-up-email').value)">${esc(t("acct_upgrade_btn"))}</button></div>`;
+    }
+    html+=`<div class="acct-fields">
+      <label>${esc(t("acct_name"))}</label><input id="acct-name" value="${esc(profile&&profile.display_name||"")}">
+      <label>${esc(t("acct_wa"))}</label><input id="acct-wa" value="${esc(profile&&profile.whatsapp||"")}">
+      <label>${esc(t("acct_company"))}</label><input id="acct-company" value="${esc(profile&&profile.company||"")}">
+      <label>${esc(t("acct_avatar"))}</label><input type="file" accept="image/*" onchange="uploadAvatar(this.files[0])">
+      <button class="btn prime" onclick="saveProfile()">${esc(t("acct_save"))}</button>
+    </div>
+    <div class="acct-actions">
+      <button class="btn" onclick="goMyListings()">${esc(t("acct_mylist"))}</button>
+      <button class="btn" onclick="signOut()">${esc(t("acct_logout"))}</button>
+    </div>`;
+  }
+  html+=`</div>`;
+  m.innerHTML=html;
+}
+function goMyListings(){ closeAccount(); view="mylist"; param=null; render(); }
+async function renderMyListings(){
+  if(!USE_SUPABASE){ app().innerHTML=`<div class="wrap"><p>${esc(t("acct_login_t"))}: 需配置 Supabase。</p></div>`; return; }
+  if(!userId){ app().innerHTML=`<div class="wrap"><p>${esc(t("acct_login_t"))}</p></div>`; return; }
+  let rows=[];
+  const {data,error}=await sb.from('listings').select('*').eq('user_id',userId).order('created_at',{ascending:false});
+  if(!error && data) rows=data.map(rowToLot);
+  const html = rows.length? rows.map(l=>{
+    const off=offPct(l.priceNow,l.priceWas);
+    const bg = l.img?` style="background-image:url('${l.img}');background-size:cover;background-position:center"`:"";
+    return `<div class="lot"><div class="img"${bg}>${off?`<span class="off">${off}% OFF</span>`:(l.img?"":"IMG")}</div>
+      <div class="body"><div class="t">${esc(title(l))}</div>
+      <div class="price"><span class="now">${money(l.priceNow)}</span></div>
+      <button class="btn" onclick="delListing('${l.id}')">${esc(t("mylist_del"))}</button></div></div>`;
+  }).join("") : `<div class="empty">${esc(t("mylist_empty"))}</div>`;
+  app().innerHTML=`<div class="wrap"><div class="sec-title">${esc(t("mylist_title"))}</div><div class="grid">${html}</div></div>`;
+}
+async function delListing(id){
+  if(!confirm(t("mylist_del_confirm"))) return;
+  await sb.from('listings').delete().eq('id',id).eq('user_id',userId);
+  renderMyListings();
+}
+
 /* ---------------- nav actions ---------------- */
 async function go(v,p){ view=v; param=p||null; window.scrollTo(0,0); await ensureLots(); render(); }
 function setLang(l){ lang=l; localStorage.setItem(LS_LANG,l); render(); }
@@ -652,6 +794,7 @@ function goBeltCat(type,v){ if(type==="cat") filters.cat=v; else filters.belt=v;
 
 /* ---------------- boot ---------------- */
 (async ()=>{
+  await initAuth();
   await ensureLots();
   await ensureInquiries();
   render();
