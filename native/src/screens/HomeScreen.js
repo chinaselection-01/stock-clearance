@@ -68,6 +68,10 @@ export default function HomeScreen({ navigation }) {
         refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
         ListEmptyComponent={<Text style={styles.empty}>{loading ? '' : '—'}</Text>}
       />
+      <View style={styles.footBox}>
+        <Text style={styles.footText}>{t('appName')} · Global B2B stock-lot & clearance marketplace</Text>
+        <Text style={styles.footEmail}>{t('contactEmail')}</Text>
+      </View>
     </View>
   );
 }
@@ -86,4 +90,7 @@ const styles = StyleSheet.create({
   chipTxt: { color: theme.brand, fontSize: 12, fontWeight: '600' },
   subTitle: { fontSize: 14, fontWeight: '700', color: theme.ink, marginHorizontal: 12, marginBottom: 4 },
   empty: { textAlign: 'center', color: theme.muted, marginTop: 30 },
+  footBox: { paddingVertical: 22, borderTopWidth: 1, borderTopColor: theme.line, marginTop: 16, alignItems: 'center' },
+  footText: { fontSize: 11, color: theme.muted, textAlign: 'center', marginBottom: 4 },
+  footEmail: { fontSize: 12, color: theme.brand, fontWeight: '600', textAlign: 'center' },
 });
