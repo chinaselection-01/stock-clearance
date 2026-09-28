@@ -179,7 +179,8 @@ function rowToLot(r){
     img:r.img, specs:r.specs||{},
     supplier:{name:r.supplier_name, verified:r.supplier_verified, whatsapp:r.supplier_whatsapp, resp:r.supplier_resp},
     createdAt: r.created_at? new Date(r.created_at).getTime() : Date.now(),
-    featured: r.featured
+    featured: r.featured,
+    userId: r.user_id
   };
 }
 function lotToRow(l){
@@ -244,15 +245,15 @@ function render(){
   $("#nav-home").textContent=t("nav_home");
   $("#nav-browse").textContent=t("nav_browse");
   $("#nav-post").textContent=t("nav_post");
-  const inq=INQ.filter(i=>i.status!=="done").length;
-  $("#nav-inq").innerHTML = t("nav_inq") + (inq?`<span class="badge-count">${inq}</span>`:"");
   const nm=$("#nav-me"); if(nm) nm.textContent=t("acct");
+  const lb=$("#nav-inq-lb"); if(lb) lb.textContent=t("inbox_title");
   if(view==="home") return renderHome();
   if(view==="browse") return renderBrowse();
   if(view==="detail") return renderDetail();
   if(view==="post") return renderPost();
   if(view==="inquiries") return renderInquiries();
   if(view==="mylist") return renderMyListings();
+  if(view==="inbox") return renderInbox();
 }
 
 function renderHome(){
@@ -384,6 +385,7 @@ function renderDetail(){
         <div class="quote">
           <h3>${esc(t("req_quote"))}</h3>
           <p>${esc(t("req_sub"))}</p>
+          <button class="btn prime" type="button" onclick="openChat('${l.id}','${l.userId||""}')">💬 ${esc(t("chat_with"))}</button>
           <input id="iq-name" placeholder="${esc(t("inq_from"))} *">
           <input id="iq-email" placeholder="Email *">
           <input id="iq-wa" placeholder="WhatsApp">
@@ -757,6 +759,7 @@ function renderAccount(){
     </div>
     <div class="acct-actions">
       <button class="btn" onclick="goMyListings()">${esc(t("acct_mylist"))}</button>
+      <button class="btn" onclick="openInbox()">${esc(t("inbox_title"))}</button>
       <button class="btn" onclick="signOut()">${esc(t("acct_logout"))}</button>
     </div>`;
   }
@@ -784,6 +787,106 @@ async function delListing(id){
   if(!confirm(t("mylist_del_confirm"))) return;
   await sb.from('listings').delete().eq('id',id).eq('user_id',userId);
   renderMyListings();
+}
+
+/* ---------------- in-app chat ---------------- */
+let chatOpen=false, chatListingId=null, chatOtherId=null, chatMsgs=[], chatChannel=null, chatOtherName="";
+
+async function openChat(listingId, otherId){
+  if(!USE_SUPABASE){ alert(t("chat_login")+": 需配置 Supabase 后端"); return; }
+  if(!await ensureLoggedIn()) return;
+  chatOtherId = otherId || (getLot(listingId)&&getLot(listingId).userId) || null;
+  if(chatOtherId && chatOtherId===userId){ closeChat(); openInbox(); return; }
+  if(!chatOtherId){ alert(t("chat_unknown")); return; }
+  chatListingId=listingId; chatMsgs=[]; chatOpen=true;
+  renderChat();
+  await loadChatMessages();
+  subscribeChat();
+}
+async function loadChatMessages(){
+  const {data,error}=await sb.from('messages').select('*')
+    .eq('listing_id',chatListingId)
+    .or(`and(sender_id.eq.${userId},receiver_id.eq.${chatOtherId}),and(sender_id.eq.${chatOtherId},receiver_id.eq.${userId})`)
+    .order('created_at',{ascending:true});
+  if(!error&&data){ chatMsgs=data; markRead(data); renderChat(); }
+}
+function markRead(rows){
+  const ids=(rows||[]).filter(m=>m.receiver_id===userId && !m.read).map(m=>m.id);
+  if(!ids.length) return;
+  sb.from('messages').update({read:true}).in('id',ids).then(()=>{});
+}
+async function sendChatMsg(){
+  const ta=document.getElementById('chat-input'); if(!ta) return;
+  const body=ta.value.trim(); if(!body) return;
+  ta.value="";
+  const {error}=await sb.from('messages').insert({listing_id:chatListingId, sender_id:userId, receiver_id:chatOtherId, body});
+  if(error){ document.getElementById('chat-msg').innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; return; }
+  await loadChatMessages();
+}
+function subscribeChat(){
+  if(chatChannel) sb.removeChannel(chatChannel);
+  chatChannel=sb.channel('chat-'+chatListingId+'-'+userId)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},(payload)=>{
+      const r=payload.new;
+      if(r.listing_id===chatListingId && (r.sender_id===chatOtherId||r.receiver_id===chatOtherId) && (r.sender_id===userId||r.receiver_id===userId)){
+        chatMsgs.push(r); if(r.receiver_id===userId&&!r.read) markRead([r]); renderChat();
+      }
+    }).subscribe();
+}
+function renderChat(){
+  const m=document.getElementById('chat-modal'); if(!m) return;
+  m.style.display="flex";
+  const bubbles=chatMsgs.map(msg=>{
+    const me = msg.sender_id===userId;
+    const time = msg.created_at? new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : "";
+    return `<div class="bubble ${me?'me':'them'}"><div class="b-txt">${esc(msg.body)}</div><div class="b-time">${time}</div></div>`;
+  }).join("");
+  m.innerHTML=`<div class="acct-panel chat-panel">
+    <div class="acct-head"><b>${esc(t("chat_title"))}</b><button class="x" onclick="closeChat()">×</button></div>
+    <div id="chat-msg"></div>
+    <div class="chat-msgs" id="chat-msgs">${bubbles||`<div class="empty">${esc(t("inbox_empty"))}</div>`}</div>
+    <div class="chat-input">
+      <textarea id="chat-input" placeholder="${esc(t("chat_ph"))}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMsg();}"></textarea>
+      <button class="btn prime" onclick="sendChatMsg()">${esc(t("chat_send"))}</button>
+    </div></div>`;
+  const box=document.getElementById('chat-msgs'); if(box) box.scrollTop=box.scrollHeight;
+}
+function closeChat(){ chatOpen=false; if(chatChannel){ sb.removeChannel(chatChannel); chatChannel=null; } const m=document.getElementById('chat-modal'); if(m) m.style.display="none"; }
+async function openInbox(){
+  if(!USE_SUPABASE){ alert(t("chat_login")+": 需配置 Supabase"); return; }
+  if(!userId){ if(!await ensureLoggedIn()) return; }
+  view="inbox"; param=null; render();
+}
+async function renderInbox(){
+  if(!userId){ app().innerHTML=`<div class="wrap"><p>${esc(t("acct_login_t"))}</p></div>`; return; }
+  const {data,error}=await sb.from('messages').select('*').or(`sender_id.eq.${userId},receiver_id.eq.${userId}`).order('created_at',{ascending:false});
+  const rows=data||[];
+  const threads={};
+  rows.forEach(m=>{
+    const other = m.sender_id===userId? m.receiver_id : m.sender_id;
+    const key=m.listing_id+'|'+other;
+    if(!threads[key]) threads[key]={listingId:m.listing_id, other, msgs:[]};
+    threads[key].msgs.push(m);
+  });
+  const keys=Object.keys(threads);
+  if(!keys.length){ app().innerHTML=`<div class="wrap"><div class="sec-title">${esc(t("inbox_title"))}</div><div class="empty">${esc(t("inbox_empty"))}</div></div>`; return; }
+  const listingIds=[...new Set(keys.map(k=>threads[k].listingId))];
+  const {data:lots}=await sb.from('listings_public').select('id,title_cn,title_en').in('id',listingIds);
+  const titleMap={}; (lots||[]).forEach(l=>titleMap[l.id]=l.title_cn||l.title_en);
+  const otherIds=[...new Set(keys.map(k=>threads[k].other))];
+  const {data:profs}=await sb.from('profiles').select('id,display_name').in('id',otherIds);
+  const nameMap={}; (profs||[]).forEach(p=>nameMap[p.id]=p.display_name||t("acct_guest"));
+  const html=keys.map(k=>{
+    const th=threads[k]; const last=th.msgs[th.msgs.length-1];
+    const unread=th.msgs.filter(m=>m.receiver_id===userId&&!m.read).length;
+    return `<div class="thread" onclick="openChat('${th.listingId}','${th.other}')">
+      <div class="t-main"><div class="t-title">${esc(titleMap[th.listingId]||t("chat_unknown"))}</div>
+      <div class="t-other">${esc(nameMap[th.other]||t("acct_guest"))}</div>
+      <div class="t-last">${esc(last? last.body : '')}</div></div>
+      ${unread?`<span class="badge-count">${unread}</span>`:''}
+    </div>`;
+  }).join("");
+  app().innerHTML=`<div class="wrap"><div class="sec-title">${esc(t("inbox_title"))}</div><div class="threads">${html}</div></div>`;
 }
 
 /* ---------------- nav actions ---------------- */

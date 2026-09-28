@@ -250,3 +250,23 @@ table.spec td:first-child{background:#F1EEE8;font-weight:700;width:40%}
 
 /* ---------- my listings ---------- */
 .lot.mine .price{margin:6px 0}
+
+/* ---------- chat ---------- */
+.chat-panel{max-width:480px;display:flex;flex-direction:column;gap:10px}
+.chat-msgs{display:flex;flex-direction:column;gap:8px;max-height:50vh;overflow:auto;padding:6px 2px}
+.bubble{max-width:78%;padding:8px 11px;border-radius:14px;font-size:14px;line-height:1.35;word-break:break-word}
+.bubble .b-time{font-size:10px;opacity:.55;margin-top:3px;text-align:right}
+.bubble.them{background:var(--bg);align-self:flex-start;border-top-left-radius:4px}
+.bubble.me{background:var(--prime);color:#fff;align-self:flex-end;border-top-right-radius:4px}
+.bubble.me .b-time{color:rgba(255,255,255,.7)}
+.chat-input{display:flex;gap:8px;align-items:flex-end}
+.chat-input textarea{flex:1;min-height:44px;max-height:120px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;resize:none;font-family:inherit}
+.chat-input .btn{width:auto;padding:10px 16px;white-space:nowrap}
+.threads{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.thread{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;position:relative}
+.thread:hover{border-color:var(--prime)}
+.thread .t-main{flex:1;min-width:0}
+.thread .t-title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thread .t-other{font-size:12px;color:var(--prime);margin:2px 0}
+.thread .t-last{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quote .btn.prime{width:100%;margin-bottom:8px}

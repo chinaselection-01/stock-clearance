@@ -43,7 +43,7 @@
         <button id="lang-zh" onclick="setLang('zh')">中文</button>
       </div>
       <button class="btn" id="nav-account" onclick="openAccount()">Account</button>
-      <button class="btn" id="nav-inq" onclick="go('inquiries')">Inquiries</button>
+      <button class="btn" id="nav-inq" onclick="go('inbox')">Messages</button>
       <button class="btn prime" onclick="go('post')" id="nav-post">Post Stock</button>
     </div>
   </nav>
@@ -61,11 +61,12 @@
     <button onclick="go('home')"><span class="bn-ic">H</span><span class="bn-lb">Home</span></button>
     <button onclick="go('browse')"><span class="bn-ic">B</span><span class="bn-lb">Browse</span></button>
     <button class="bn-post" onclick="go('post')"><span class="bn-ic">+</span><span class="bn-lb">Post</span></button>
-    <button onclick="go('inquiries')"><span class="bn-ic">Q</span><span class="bn-lb">Inq</span></button>
+    <button onclick="go('inbox')"><span class="bn-ic">Q</span><span class="bn-lb" id="nav-inq-lb">Msg</span></button>
     <button onclick="openAccount()"><span class="bn-ic">@</span><span class="bn-lb" id="nav-me">Me</span></button>
   </nav>
 
   <div id="acct-modal" class="modal" style="display:none" onclick="if(event.target===this)closeAccount()"></div>
+  <div id="chat-modal" class="modal" style="display:none" onclick="if(event.target===this)closeChat()"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
