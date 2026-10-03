@@ -27,7 +27,7 @@ grant select on public.listings_public to authenticated;
 -- ---------- 2. messages 表 ----------
 create table if not exists public.messages (
   id uuid primary key default gen_random_uuid(),
-  listing_id uuid references public.listings(id) on delete cascade,
+  listing_id text references public.listings(id) on delete cascade,
   sender_id uuid references auth.users(id) on delete cascade,
   receiver_id uuid references auth.users(id) on delete cascade,
   body text not null,
