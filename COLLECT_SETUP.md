@@ -4,8 +4,23 @@
 
 | 方式 | 依赖 | 现在能用吗 |
 |---|---|---|
+| **单链接导入** | 无（纯前端，无 token 时填字段） | ✅ 现在就能用 |
 | **手动批量粘贴** | 无（纯前端） | ✅ 现在就能用 |
 | **自动采集（Apify）** | 需 `APIFY_TOKEN` + 部署 Edge Function | ⏳ 配好即生效 |
+
+---
+
+## 0. 单链接导入（最常用，今天即可用）
+
+在采集中心切到 **Single link** 标签：
+
+1. 从 1688 商品页复制**单个**商品链接，粘贴进输入框
+2. 点 **Parse & import**：
+   - **已配 Apify token（且部署了 Edge Function）**：自动解析该链接的标题 / 主图 / 价格 / MOQ / 供应商，生成预填卡片 → 确认后一键导入
+   - **未配 token**：自动降级为单条预填表单，你填标题 / 价格 / 数量，粘贴图片地址则点「Import」后自动转存到平台 Storage
+3. 导入后归属当前登录账号（未登录会先建/登录）
+
+> 这是「看到一个好货 → 贴一个链接直接发」最高频的玩法，比批量粘贴少一步多行文本。
 
 ---
 
@@ -58,8 +73,9 @@ supabase functions deploy collect1688
 ## 3. 代码位置
 - 采集代理：`supabase/functions/collect1688/index.ts`
   - `mode=collect`：调 Apify → 归一化商品数组（未配 token 返回 `{error:"NO_APIFY_KEY"}`）
+  - `mode=single`：单链接导入，有 token 走 Apify 解析该 offerId，无 token 降级返回 `{mode:"manual", url, sourceId}`
   - `mode=saveImage`：服务端下载 1688 图（带 referer）→ 上传 Storage → 返回公开 URL
-- 前端：`app.js` 的 `renderCollect / runCollect / importCollected / parseManualLinks / importManual`
+- 前端：`app.js` 的 `renderCollect / runCollect / parseSingleLink / renderSingleResult / importSingle / importCollected / parseManualLinks / importManual`
 - 入口：顶部 `Import` 按钮 + 底部导航 `Import`
 
 ## 4. 注意事项

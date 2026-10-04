@@ -3,9 +3,11 @@
 //  deploy: supabase functions deploy collect1688
 //  配置密钥: supabase secrets set APIFY_TOKEN=xxx
 //
-//  两个模式:
-//   mode=collect   : 调 Apify 1688 Wholesale Scraper，返回归一化商品数组
+//  三个模式:
+//   mode=collect   : 调 Apify 1688 Wholesale Scraper（关键词/整店/批量 offerId），返回归一化商品数组
 //                   需要 APIFY_TOKEN（未配置返回 {error:"NO_APIFY_KEY"}）
+//   mode=single    : 单个 1688 商品链接导入。有 token 走 Apify 解析该 offerId；
+//                   无 token 降级返回 {mode:"manual", url, sourceId}，由前端弹单条预填表单
 //   mode=saveImage : 服务端下载 1688 图片(带 referer) → 上传 Storage → 返回公开 URL
 //                   绕过浏览器 CORS/防盗链，用于把外链图永久托管
 // ============================================================
@@ -23,7 +25,7 @@ const JSON_H = { ...cors, "Content-Type": "application/json" };
 const APIFY_ACTOR = "zen-studio/1688-wholesale-scraper";
 
 interface ReqBody {
-  mode?: "collect" | "saveImage";
+  mode?: "collect" | "single" | "saveImage";
   type?: "keyword" | "offerIds";
   query?: string;
   imageUrl?: string;
@@ -55,21 +57,11 @@ function normalize(it: any) {
   };
 }
 
-async function collect(body: ReqBody) {
+async function runApify(input: any) {
   const token = Deno.env.get("APIFY_TOKEN");
   if (!token) {
     return new Response(JSON.stringify({ error: "NO_APIFY_KEY" }), { headers: JSON_H });
   }
-  const type = body.type || "keyword";
-  const query = (body.query || "").trim();
-  if (!query) {
-    return new Response(JSON.stringify({ error: "EMPTY_QUERY" }), { headers: JSON_H });
-  }
-  const input: any = { maxResults: 50 };
-  if (type === "keyword") input.keywords = [query];
-  else if (type === "offerIds")
-    input.offerIds = query.split(/[\s,，、]+/).filter(Boolean);
-
   const runRes = await fetch(
     `https://api.apify.com/v2/acts/${APIFY_ACTOR}/runs?token=${token}`,
     {
@@ -119,6 +111,44 @@ async function collect(body: ReqBody) {
   );
 }
 
+async function collect(body: ReqBody) {
+  const type = body.type || "keyword";
+  const query = (body.query || "").trim();
+  if (!query) {
+    return new Response(JSON.stringify({ error: "EMPTY_QUERY" }), { headers: JSON_H });
+  }
+  const input: any = { maxResults: 50 };
+  if (type === "keyword") input.keywords = [query];
+  else if (type === "offerIds")
+    input.offerIds = query.split(/[\s,，、]+/).filter(Boolean);
+  else
+    return new Response(JSON.stringify({ error: "BAD_TYPE" }), { headers: JSON_H });
+  return await runApify(input);
+}
+
+function extractOfferId(url: string): string {
+  const m = url.match(/offer[/\\](\d+)/) || url.match(/(\d{8,})/);
+  return m ? m[1] : "";
+}
+
+// 单链接导入：有 token 走 Apify 解析该 offerId；无 token 降级返回 manual
+async function single(body: ReqBody) {
+  const url = (body.query || "").trim();
+  const sourceId = extractOfferId(url);
+  const token = Deno.env.get("APIFY_TOKEN");
+  if (!token) {
+    return new Response(JSON.stringify({ mode: "manual", url, sourceId }), {
+      headers: JSON_H,
+    });
+  }
+  if (!sourceId) {
+    return new Response(JSON.stringify({ mode: "manual", url, sourceId, warn: "NO_OFFER_ID" }), {
+      headers: JSON_H,
+    });
+  }
+  return await runApify({ maxResults: 1, offerIds: [sourceId] });
+}
+
 async function saveImage(imageUrl: string) {
   if (!imageUrl)
     return new Response(JSON.stringify({ error: "NO_URL" }), { headers: JSON_H });
@@ -165,5 +195,6 @@ serve(async (req) => {
     /* ignore */
   }
   if (body.mode === "saveImage") return await saveImage(body.imageUrl || "");
+  if (body.mode === "single") return await single(body);
   return await collect(body);
 });

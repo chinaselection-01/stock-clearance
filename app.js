@@ -48,7 +48,7 @@ const I18N = {
     sup_banner:"Suppliers wanted — post free, photo-only", sup_banner_p:"We are filling inventory first. Free listing now. You take the photo, we do the rest.",
     how_join:"How to bring suppliers on board", join1:"Walk Yiwu Wuyuai & belt markets, invite booth owners directly", join2:"Post for them — you/assistant shoot photos, they just confirm", join3:"Share the invite link in WeChat stock-lot groups",
     time:"Time",
-    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone.", collect_title:"Import source from 1688", collect_auto:"Auto collect (Apify)", collect_manual:"Manual paste", collect_kw_ph:"Keyword (Chinese / English)", collect_offer_ph:"One 1688 link or offer ID per line", collect_btn:"Collect", collect_collecting:"Collecting…", collect_nokey:"Auto collect needs an Apify token (see COLLECT_SETUP.md). Use Manual paste below — it works now.", collect_pick:"Select items to import", collect_import:"Import selected", collect_importing:"Importing…", collect_imported:"Imported N items", collect_empty:"No results.", collect_img_tip:"Images load via 1688 direct link (no-referrer). For permanent hosting configure the Edge Function.", man_title:"Title", man_price:"Clearance price", man_qty:"Quantity", man_import:"Import these", man_paste_ph:"Paste 1688 product links, one per line…", man_parse:"Parse links", man_parsed:"Parsed N links", nav_collect:"Import"
+    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone.", collect_title:"Import source from 1688", collect_auto:"Auto collect (Apify)", collect_manual:"Manual paste", collect_kw_ph:"Keyword (Chinese / English)", collect_offer_ph:"One 1688 link or offer ID per line", collect_btn:"Collect", collect_collecting:"Collecting…", collect_nokey:"Auto collect needs an Apify token (see COLLECT_SETUP.md). Use Manual paste below — it works now.", collect_pick:"Select items to import", collect_import:"Import selected", collect_importing:"Importing…", collect_imported:"Imported N items", collect_empty:"No results.", collect_single:"Single link", collect_single_ph:"Paste one 1688 product link…", collect_single_btn:"Parse & import", collect_single_manual:"No Apify token configured — fill fields below; pasting an image URL auto re-hosts it to our storage.", man_img_ph:"Image URL (paste 1688 image address, optional)", collect_img_tip:"Images load via 1688 direct link (no-referrer). For permanent hosting configure the Edge Function.", man_title:"Title", man_price:"Clearance price", man_qty:"Quantity", man_import:"Import these", man_paste_ph:"Paste 1688 product links, one per line…", man_parse:"Parse links", man_parsed:"Parsed N links", nav_collect:"Import"
   },
   zh: {
     nav_home:"首页", nav_browse:"浏览", nav_post:"发布尾货", nav_inq:"询盘",
@@ -91,7 +91,7 @@ const I18N = {
     sup_banner:"正在招募供应商 · 免费发布 · 拍照即可发", sup_banner_p:"我们优先把库存填满。现在免费上架，你只管拍照，其余交给我们。",
     how_join:"如何把供应商拉进来", join1:"扫义乌五爱及各地产业带市场，直接邀请档口老板", join2:"代运营发帖——你/帮手拍照，老板只确认", join3:"在尾货微信群发邀请链接，老客户转介绍",
     time:"时间",
-    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。", collect_title:"从 1688 导入货源", collect_auto:"自动采集（Apify）", collect_manual:"手动批量粘贴", collect_kw_ph:"关键词（中文 / 英文）", collect_offer_ph:"每行一个 1688 链接或 offer ID", collect_btn:"采集", collect_collecting:"采集中…", collect_nokey:"自动采集需要配置 Apify token（见 COLLECT_SETUP.md）。请先用下方「手动批量粘贴」，现在就能用。", collect_pick:"勾选要导入的货源", collect_import:"导入选中", collect_importing:"导入中…", collect_imported:"已导入 N 件", collect_empty:"没有结果。", collect_img_tip:"图片走 1688 直链（不发送 referer）。要永久托管请配置 Edge Function。", man_title:"商品名称", man_price:"清仓价", man_qty:"数量", man_import:"导入这些", man_paste_ph:"粘贴 1688 商品链接，每行一个…", man_parse:"解析链接", man_parsed:"已解析 N 条链接", nav_collect:"采集"
+    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。", collect_title:"从 1688 导入货源", collect_auto:"自动采集（Apify）", collect_manual:"手动批量粘贴", collect_kw_ph:"关键词（中文 / 英文）", collect_offer_ph:"每行一个 1688 链接或 offer ID", collect_btn:"采集", collect_collecting:"采集中…", collect_nokey:"自动采集需要配置 Apify token（见 COLLECT_SETUP.md）。请先用下方「手动批量粘贴」，现在就能用。", collect_pick:"勾选要导入的货源", collect_import:"导入选中", collect_importing:"导入中…", collect_imported:"已导入 N 件", collect_empty:"没有结果。", collect_single:"单链接", collect_single_ph:"粘贴单个 1688 商品链接…", collect_single_btn:"解析并导入", collect_single_manual:"未配置 Apify token — 请在下方填写字段；若粘贴图片地址，系统会自动转存到平台。", man_img_ph:"图片URL（可粘贴 1688 图片地址，选填）", collect_img_tip:"图片走 1688 直链（不发送 referer）。要永久托管请配置 Edge Function。", man_title:"商品名称", man_price:"清仓价", man_qty:"数量", man_import:"导入这些", man_paste_ph:"粘贴 1688 商品链接，每行一个…", man_parse:"解析链接", man_parsed:"已解析 N 条链接", nav_collect:"采集"
   }
 };
 
@@ -896,14 +896,16 @@ async function renderInbox(){
 function setCollectTab(tab){ collectTab=tab; renderCollect(); }
 
 function renderCollect(){
-  const auto = collectTab==="auto";
+  const tab = collectTab;
+  const isAuto = tab==="auto", isSingle = tab==="single", isManual = tab==="manual";
   app().innerHTML = `<div class="wrap collect">
     <div class="sec-title">${esc(t("collect_title"))}</div>
     <div class="tabs">
-      <button class="${auto?"on":""}" onclick="setCollectTab('auto')">${esc(t("collect_auto"))}</button>
-      <button class="${auto?"":"on"}" onclick="setCollectTab('manual')">${esc(t("collect_manual"))}</button>
+      <button class="${isAuto?"on":""}" onclick="setCollectTab('auto')">${esc(t("collect_auto"))}</button>
+      <button class="${isSingle?"on":""}" onclick="setCollectTab('single')">${esc(t("collect_single"))}</button>
+      <button class="${isManual?"on":""}" onclick="setCollectTab('manual')">${esc(t("collect_manual"))}</button>
     </div>
-    ${auto ? `
+    ${isAuto ? `
       <div class="card">
         <div class="seg">
           <label class="seg-i"><input type="radio" name="ctype" value="keyword" checked> ${esc(t("collect_kw_ph"))}</label>
@@ -915,6 +917,14 @@ function renderCollect(){
         <div id="c-results"></div>
         <div class="note">${esc(t("collect_img_tip"))}</div>
       </div>`
+    : isSingle ? `
+      <div class="card">
+        <input id="s-link" placeholder="${esc(t("collect_single_ph"))}">
+        <button class="btn prime" onclick="parseSingleLink()">${esc(t("collect_single_btn"))}</button>
+        <div id="s-status"></div>
+        <div id="s-results"></div>
+        <div class="note">${esc(t("collect_img_tip"))}</div>
+      </div>`
     : `
       <div class="card">
         <textarea id="m-links" placeholder="${esc(t("man_paste_ph"))}" rows="6"></textarea>
@@ -923,6 +933,78 @@ function renderCollect(){
         <div id="m-status"></div>
       </div>`}
   </div>`;
+}
+
+let singleItem=null; // 单链接解析结果（含 apify 命中的完整字段）
+
+async function parseSingleLink(){
+  if(!USE_SUPABASE){ $("#s-status").innerHTML="需配置 Supabase 后端"; return; }
+  const url=$("#s-link").value.trim();
+  if(!url || !/1688/.test(url)){ $("#s-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请输入 1688 商品链接":"Paste a 1688 product URL")}</div>`; return; }
+  $("#s-status").innerHTML=`<div class="ok-msg">${esc(t("collect_collecting"))}</div>`;
+  $("#s-results").innerHTML="";
+  try{
+    const fn=`${SC_URL}/functions/v1/collect1688`;
+    const r=await fetch(fn,{method:"POST",headers:{"Content-Type":"application/json","apikey":SC_ANON,"Authorization":`Bearer ${SC_ANON}`},body:JSON.stringify({mode:"single",query:url})});
+    const d=await r.json();
+    if(d.error==="NO_APIFY_KEY" || d.mode==="manual"){ renderSingleManual(url); return; }
+    if(d.error){ $("#s-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* Error: ${esc(d.error)}</div>`; return; }
+    const items=(d.items||[]);
+    if(!items.length){ $("#s-status").innerHTML=`* ${esc(lang==="zh"?"未能解析该链接，请确认链接有效":"Could not parse this link")}`; return; }
+    singleItem={title:items[0].title||"",img:items[0].img||"",priceMin:items[0].priceMin||"",supplier:items[0].supplier||"",url:items[0].url||url,sourceId:items[0].sourceId||""};
+    renderSingleResult();
+  }catch(e){ $("#s-status").innerHTML=`* Error: ${esc(e.message)}`; }
+}
+
+function renderSingleResult(){
+  const it=singleItem; if(!it) return;
+  $("#s-status").innerHTML="";
+  $("#s-results").innerHTML=`<div class="citem single">
+      <img class="imgfill" referrerpolicy="no-referrer" src="${esc(it.img)}" alt="" onerror="this.style.display='none'">
+      <div class="ci">
+        <div class="ct">${esc(it.title||"(no title)")}</div>
+        <div class="cm">${money(it.priceMin)} ${esc(it.currency||"")}${it.moq?` · MOQ ${it.moq}`:""}</div>
+        <div class="cs">${esc(it.supplier||"")}</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <input id="s-title" placeholder="${esc(t("man_title"))} *" value="${esc(it.title||"")}">
+      <input id="s-img" placeholder="${esc(t("man_img_ph"))}" value="${esc(it.img||"")}">
+      <div class="mgr"><input id="s-price" placeholder="${esc(t("man_price"))}" value="${esc(it.priceMin||"")}" style="width:140px">
+        <input id="s-qty" placeholder="${esc(t("man_qty"))}" value="1" style="width:80px"></div>
+      <div class="muted"><a href="${esc(it.url)}" target="_blank" onclick="event.stopPropagation()">1688 ↗</a> ${esc(it.url)}</div>
+      <button class="btn prime" onclick="importSingle()">${esc(t("collect_import"))}</button>
+    </div>`;
+}
+
+function renderSingleManual(url){
+  singleItem={title:"",img:"",priceMin:"",supplier:"",url:url,sourceId:""};
+  $("#s-status").innerHTML=`<div class="ok-msg" style="background:#FFF6E5;color:#9a6700;border-color:#F0D9A8">${esc(t("collect_single_manual"))}</div>`;
+  $("#s-results").innerHTML=`<div class="card" style="margin-top:12px">
+      <div class="muted"><a href="${esc(url)}" target="_blank" onclick="event.stopPropagation()">1688 ↗</a> ${esc(url)}</div>
+      <input id="s-title" placeholder="${esc(t("man_title"))} *">
+      <input id="s-img" placeholder="${esc(t("man_img_ph"))}">
+      <div class="mgr"><input id="s-price" placeholder="${esc(t("man_price"))}" style="width:140px">
+        <input id="s-qty" placeholder="${esc(t("man_qty"))}" value="1" style="width:80px"></div>
+      <button class="btn prime" onclick="importSingle()">${esc(t("collect_import"))}</button>
+    </div>`;
+}
+
+async function importSingle(){
+  if(!USE_SUPABASE){ alert(t("acct_login_t")+": 需配置 Supabase"); return; }
+  const ok=await ensureLoggedIn(); if(!ok) return;
+  const g=id=>{const e=document.getElementById(id); return e?e.value.trim():"";};
+  const title=g("s-title");
+  if(!title){ $("#s-status").innerHTML=`* ${esc(lang==="zh"?"请填写标题":"Fill title")}`; return; }
+  const price=parseFloat(g("s-price"))||0;
+  const qty=parseInt(g("s-qty"))||1;
+  const imgRaw=g("s-img")||(singleItem&&singleItem.img)||"";
+  $("#s-status").innerHTML=`<div class="ok-msg">${esc(t("collect_importing"))}</div>`;
+  const img=await saveImgViaEdge(imgRaw).catch(()=>imgRaw);
+  const lot={id:"U"+Date.now().toString().slice(-8), titleCn:title, titleEn:title, cat:"oth", belt:"yw", qty:qty||1, unit:"pcs", priceNow:price, priceWas:price, moq:0, cond:"mix", brand:"un", descCn:singleItem&&singleItem.url||"", descEn:singleItem&&singleItem.url||"", img:img, specs:{}, supplier:{name:(profile&&profile.display_name)||"1688",verified:false,whatsapp:"",resp:"—"}, createdAt:Date.now(), featured:false};
+  const {error}=await sb.from("listings").insert(lotToRow(lot));
+  if(!error){ singleItem=null; $("#s-results").innerHTML=""; $("#s-status").innerHTML=`<div class="ok-msg">${esc(t("collect_imported").replace("N",1))}</div>`; lotsLoaded=false; await ensureLots(); }
+  else $("#s-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`;
 }
 
 async function runCollect(){
