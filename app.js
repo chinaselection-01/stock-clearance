@@ -48,7 +48,7 @@ const I18N = {
     sup_banner:"Suppliers wanted — post free, photo-only", sup_banner_p:"We are filling inventory first. Free listing now. You take the photo, we do the rest.",
     how_join:"How to bring suppliers on board", join1:"Walk Yiwu Wuyuai & belt markets, invite booth owners directly", join2:"Post for them — you/assistant shoot photos, they just confirm", join3:"Share the invite link in WeChat stock-lot groups",
     time:"Time",
-    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone."
+    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone.", collect_title:"Import source from 1688", collect_auto:"Auto collect (Apify)", collect_manual:"Manual paste", collect_kw_ph:"Keyword (Chinese / English)", collect_offer_ph:"One 1688 link or offer ID per line", collect_btn:"Collect", collect_collecting:"Collecting…", collect_nokey:"Auto collect needs an Apify token (see COLLECT_SETUP.md). Use Manual paste below — it works now.", collect_pick:"Select items to import", collect_import:"Import selected", collect_importing:"Importing…", collect_imported:"Imported N items", collect_empty:"No results.", collect_img_tip:"Images load via 1688 direct link (no-referrer). For permanent hosting configure the Edge Function.", man_title:"Title", man_price:"Clearance price", man_qty:"Quantity", man_import:"Import these", man_paste_ph:"Paste 1688 product links, one per line…", man_parse:"Parse links", man_parsed:"Parsed N links", nav_collect:"Import"
   },
   zh: {
     nav_home:"首页", nav_browse:"浏览", nav_post:"发布尾货", nav_inq:"询盘",
@@ -91,7 +91,7 @@ const I18N = {
     sup_banner:"正在招募供应商 · 免费发布 · 拍照即可发", sup_banner_p:"我们优先把库存填满。现在免费上架，你只管拍照，其余交给我们。",
     how_join:"如何把供应商拉进来", join1:"扫义乌五爱及各地产业带市场，直接邀请档口老板", join2:"代运营发帖——你/帮手拍照，老板只确认", join3:"在尾货微信群发邀请链接，老客户转介绍",
     time:"时间",
-    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。"
+    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。", collect_title:"从 1688 导入货源", collect_auto:"自动采集（Apify）", collect_manual:"手动批量粘贴", collect_kw_ph:"关键词（中文 / 英文）", collect_offer_ph:"每行一个 1688 链接或 offer ID", collect_btn:"采集", collect_collecting:"采集中…", collect_nokey:"自动采集需要配置 Apify token（见 COLLECT_SETUP.md）。请先用下方「手动批量粘贴」，现在就能用。", collect_pick:"勾选要导入的货源", collect_import:"导入选中", collect_importing:"导入中…", collect_imported:"已导入 N 件", collect_empty:"没有结果。", collect_img_tip:"图片走 1688 直链（不发送 referer）。要永久托管请配置 Edge Function。", man_title:"商品名称", man_price:"清仓价", man_qty:"数量", man_import:"导入这些", man_paste_ph:"粘贴 1688 商品链接，每行一个…", man_parse:"解析链接", man_parsed:"已解析 N 条链接", nav_collect:"采集"
   }
 };
 
@@ -115,6 +115,7 @@ const sb = USE_SUPABASE ? window.supabase.createClient(SC_URL, SC_ANON) : null;
 const LS_LOTS="sc_lots_v1", LS_INQ="sc_inquiries_v1", LS_LANG="sc_lang";
 let lang = localStorage.getItem(LS_LANG) || "en";
 let view="home", param=null;
+let collectTab="auto", collectItems=[], collectSel=new Set(), manualItems=[];
 let draftImg=null;
 let filters={cat:"",belt:"",cond:"",q:"",sort:"price_asc"};
 let LOTS=[];            // cached listings
@@ -226,9 +227,9 @@ async function ensureInquiries(){
 function lotCard(l){
   const off=offPct(l.priceNow,l.priceWas);
   const verified = l.supplier && l.supplier.verified;
-  const bg = l.img?` style="background-image:url('${l.img}');background-size:cover;background-position:center"`:"";
+  const fill = l.img?`<img class="imgfill" referrerpolicy="no-referrer" src="${esc(l.img)}" alt="" onerror="this.style.display='none'">`:"";
   return `<div class="lot" onclick="go('detail','${l.id}')">
-    <div class="img"${bg}>${off?`<span class="off">${off}% OFF</span>`:(l.img?"":"IMG")}</div>
+    <div class="img">${off?`<span class="off">${off}% OFF</span>`:""}${fill}</div>
     <div class="body">
       <div class="t">${esc(title(l))}</div>
       <div class="price"><span class="now">${money(l.priceNow)}</span><span class="was">${money(l.priceWas)}</span></div>
@@ -245,6 +246,7 @@ function render(){
   $("#nav-home").textContent=t("nav_home");
   $("#nav-browse").textContent=t("nav_browse");
   $("#nav-post").textContent=t("nav_post");
+  const ncl=$("#nav-collect"); if(ncl) ncl.textContent=t("nav_collect");
   const nm=$("#nav-me"); if(nm) nm.textContent=t("acct");
   const lb=$("#nav-inq-lb"); if(lb) lb.textContent=t("inbox_title");
   if(view==="home") return renderHome();
@@ -254,6 +256,7 @@ function render(){
   if(view==="inquiries") return renderInquiries();
   if(view==="mylist") return renderMyListings();
   if(view==="inbox") return renderInbox();
+  if(view==="collect") return renderCollect();
 }
 
 function renderHome(){
@@ -351,13 +354,13 @@ function renderDetail(){
     [t("f_dim"), s.dim], [t("f_size"), s.size], [t("f_cap"), s.cap],
     [t("f_weight"), s.weight], [t("f_material"), s.material], [t("f_color"), s.color]
   ].filter(r=>r[1]).map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("");
-  const mainBg = l.img?` style="background-image:url('${l.img}');background-size:cover;background-position:center"`:"";
+  const mainFill = l.img?`<img class="imgfill" referrerpolicy="no-referrer" src="${esc(l.img)}" alt="" onerror="this.style.display='none'">`:"";
   app().innerHTML = `
     <div class="crumb"><a href="#" onclick="go('home');return false">Home</a> / ${esc(catLabel(l.cat))} / <b>${esc(title(l))}</b></div>
     <div class="wrap detail">
       <div>
         <div class="gallery">
-          <div class="main"${mainBg}>${l.img?"":off?`<span class=\"off\">${off}% OFF</span>`:"MAIN IMAGE"}</div>
+          <div class="main">${mainFill}${l.img?"":off?`<span class=\"off\">${off}% OFF</span>`:"MAIN IMAGE"}</div>
           <div class="thumbs"><div></div><div></div><div></div><div></div></div>
         </div>
         <div class="info">
@@ -775,8 +778,8 @@ async function renderMyListings(){
   if(!error && data) rows=data.map(rowToLot);
   const html = rows.length? rows.map(l=>{
     const off=offPct(l.priceNow,l.priceWas);
-    const bg = l.img?` style="background-image:url('${l.img}');background-size:cover;background-position:center"`:"";
-    return `<div class="lot"><div class="img"${bg}>${off?`<span class="off">${off}% OFF</span>`:(l.img?"":"IMG")}</div>
+    const fill = l.img?`<img class="imgfill" referrerpolicy="no-referrer" src="${esc(l.img)}" alt="" onerror="this.style.display='none'">`:"";
+    return `<div class="lot"><div class="img">${off?`<span class="off">${off}% OFF</span>`:""}${fill}</div>
       <div class="body"><div class="t">${esc(title(l))}</div>
       <div class="price"><span class="now">${money(l.priceNow)}</span></div>
       <button class="btn" onclick="delListing('${l.id}')">${esc(t("mylist_del"))}</button></div></div>`;
@@ -887,6 +890,143 @@ async function renderInbox(){
     </div>`;
   }).join("");
   app().innerHTML=`<div class="wrap"><div class="sec-title">${esc(t("inbox_title"))}</div><div class="threads">${html}</div></div>`;
+}
+
+/* ---------------- 1688 采集中心 ---------------- */
+function setCollectTab(tab){ collectTab=tab; renderCollect(); }
+
+function renderCollect(){
+  const auto = collectTab==="auto";
+  app().innerHTML = `<div class="wrap collect">
+    <div class="sec-title">${esc(t("collect_title"))}</div>
+    <div class="tabs">
+      <button class="${auto?"on":""}" onclick="setCollectTab('auto')">${esc(t("collect_auto"))}</button>
+      <button class="${auto?"":"on"}" onclick="setCollectTab('manual')">${esc(t("collect_manual"))}</button>
+    </div>
+    ${auto ? `
+      <div class="card">
+        <div class="seg">
+          <label class="seg-i"><input type="radio" name="ctype" value="keyword" checked> ${esc(t("collect_kw_ph"))}</label>
+          <label class="seg-i"><input type="radio" name="ctype" value="offerIds"> ${esc(t("collect_offer_ph"))}</label>
+        </div>
+        <input id="c-query" placeholder="${esc(t("collect_kw_ph"))}">
+        <button class="btn prime" onclick="runCollect()">${esc(t("collect_btn"))}</button>
+        <div id="c-status"></div>
+        <div id="c-results"></div>
+        <div class="note">${esc(t("collect_img_tip"))}</div>
+      </div>`
+    : `
+      <div class="card">
+        <textarea id="m-links" placeholder="${esc(t("man_paste_ph"))}" rows="6"></textarea>
+        <button class="btn" onclick="parseManualLinks()">${esc(t("man_parse"))}</button>
+        <div id="m-results"></div>
+        <div id="m-status"></div>
+      </div>`}
+  </div>`;
+}
+
+async function runCollect(){
+  if(!USE_SUPABASE){ $("#c-status").innerHTML="需配置 Supabase 后端"; return; }
+  const q=$("#c-query").value.trim();
+  if(!q){ $("#c-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(lang==="zh"?"请输入关键词或链接":"Enter a keyword or link")}</div>`; return; }
+  const type=document.querySelector('input[name=ctype]:checked').value;
+  $("#c-status").innerHTML=`<div class="ok-msg">${esc(t("collect_collecting"))}</div>`;
+  $("#c-results").innerHTML="";
+  try{
+    const fn=`${SC_URL}/functions/v1/collect1688`;
+    const r=await fetch(fn,{method:"POST",headers:{"Content-Type":"application/json","apikey":SC_ANON,"Authorization":`Bearer ${SC_ANON}`},body:JSON.stringify({mode:"collect",type,query:q})});
+    const d=await r.json();
+    if(d.error==="NO_APIFY_KEY"){ $("#c-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">${esc(t("collect_nokey"))}</div>`; return; }
+    if(d.error){ $("#c-status").innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* Error: ${esc(d.error)}</div>`; return; }
+    collectItems=(d.items||[]).map((x,i)=>({...x,_k:"c"+i}));
+    collectSel.clear();
+    renderCollectResults();
+    $("#c-status").innerHTML="";
+  }catch(e){ $("#c-status").innerHTML=`* Error: ${esc(e.message)}`; }
+}
+
+function renderCollectResults(){
+  if(!collectItems.length){ $("#c-results").innerHTML=`<div class="empty">${esc(t("collect_empty"))}</div>`; return; }
+  const cards=collectItems.map(it=>`<label class="citem">
+    <input type="checkbox" onchange="toggleCollectItem('${it._k}',this.checked)">
+    <img class="imgfill" referrerpolicy="no-referrer" src="${esc(it.img)}" alt="" onerror="this.style.display='none'">
+    <div class="ci">
+      <div class="ct">${esc(it.title||"(no title)")}</div>
+      <div class="cm">${money(it.priceMin)} ${esc(it.currency||"")}${it.moq?` · MOQ ${it.moq}`:""}</div>
+      <div class="cs">${esc(it.supplier||"")}</div>
+      <a href="${esc(it.url)}" target="_blank" onclick="event.stopPropagation()">1688 ↗</a>
+    </div></label>`).join("");
+  $("#c-results").innerHTML=`${cards}<div style="margin-top:12px"><button class="btn prime" onclick="importCollected()">${esc(t("collect_import"))}</button></div>`;
+}
+
+function toggleCollectItem(k,on){ if(on) collectSel.add(k); else collectSel.delete(k); }
+
+async function saveImgViaEdge(url){
+  if(!url) return url;
+  try{
+    const fn=`${SC_URL}/functions/v1/collect1688`;
+    const r=await fetch(fn,{method:"POST",headers:{"Content-Type":"application/json","apikey":SC_ANON,"Authorization":`Bearer ${SC_ANON}`},body:JSON.stringify({mode:"saveImage",imageUrl:url})});
+    const d=await r.json();
+    if(d.ok && d.url) return d.url;
+  }catch(e){}
+  return url;
+}
+
+async function importCollected(){
+  if(!USE_SUPABASE){ alert(t("acct_login_t")+": 需配置 Supabase"); return; }
+  const ok=await ensureLoggedIn(); if(!ok) return;
+  const ids=[...collectSel];
+  if(!ids.length){ $("#c-status").innerHTML=`* ${esc(lang==="zh"?"请勾选要导入的货源":"Select items to import")}`; return; }
+  $("#c-status").innerHTML=`<div class="ok-msg">${esc(t("collect_importing"))}</div>`;
+  let n=0;
+  for(const k of ids){
+    const it=collectItems.find(x=>x._k===k); if(!it) continue;
+    const img=await saveImgViaEdge(it.img).catch(()=>it.img);
+    const lot={id:"U"+Date.now().toString().slice(-8)+n, titleCn:it.title||"1688 lot", titleEn:it.titleEn||it.title||"1688 lot", cat:"oth", belt:it.belt||"yw", qty:it.qty||1, unit:it.unit||"pcs", priceNow:Number(it.priceMin)||0, priceWas:Number(it.priceMax)||0, moq:it.moq||0, cond:"mix", brand:"un", descCn:it.url||"", descEn:it.url||"", img:img, specs:{}, supplier:{name:it.supplier||"1688",verified:false,whatsapp:"",resp:"—"}, createdAt:Date.now(), featured:false};
+    const {error}=await sb.from("listings").insert(lotToRow(lot));
+    if(!error) n++;
+  }
+  collectSel.clear();
+  $("#c-status").innerHTML=`<div class="ok-msg">${esc(t("collect_imported").replace("N",n))}</div>`;
+  lotsLoaded=false; await ensureLots();
+}
+
+function parseManualLinks(){
+  const lines=$("#m-links").value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  manualItems=lines.map((url,i)=>({_k:"m"+i, url, id:(url.match(/offer\/(\d+)/)||url.match(/(\d{8,})/)||[])[1]||"", title:"", price:"", qty:"1", img:""}));
+  renderManualResults();
+}
+
+function renderManualResults(){
+  if(!manualItems.length){ $("#m-results").innerHTML=`<div class="empty">${esc(t("collect_empty"))}</div>`; return; }
+  const rows=manualItems.map(it=>`<div class="mitem">
+    <div class="msrc"><a href="${esc(it.url)}" target="_blank" onclick="event.stopPropagation()">1688 ↗</a><span class="muted">${esc(it.url)}</span></div>
+    <input id="m-${it._k}-img" placeholder="图片URL（可粘贴 1688 图片地址）">
+    <input id="m-${it._k}-title" placeholder="${esc(t("man_title"))} *">
+    <div class="mgr"><input id="m-${it._k}-price" placeholder="${esc(t("man_price"))}" style="width:120px">
+      <input id="m-${it._k}-qty" placeholder="${esc(t("man_qty"))}" style="width:70px"></div>
+  </div>`).join("");
+  $("#m-results").innerHTML=`${rows}<div style="margin-top:12px"><button class="btn prime" onclick="importManual()">${esc(t("man_import"))}</button></div>`;
+}
+
+async function importManual(){
+  if(!USE_SUPABASE){ alert(t("acct_login_t")+": 需配置 Supabase"); return; }
+  const ok=await ensureLoggedIn(); if(!ok) return;
+  const rows=manualItems.map(it=>{
+    const v=id=>{const e=document.getElementById(`m-${it._k}-${id}`); return e?e.value.trim():"";};
+    return {img:v("img"), title:v("title"), price:parseFloat(v("price"))||0, qty:parseInt(v("qty"))||1, url:it.url};
+  }).filter(r=>r.title||r.img);
+  if(!rows.length){ $("#m-status").innerHTML=`* ${esc(lang==="zh"?"请至少填写标题或图片":"Fill at least title or image")}`; return; }
+  $("#m-status").innerHTML=`<div class="ok-msg">${esc(t("collect_importing"))}</div>`;
+  let n=0;
+  for(const r of rows){
+    const img=await saveImgViaEdge(r.img).catch(()=>r.img);
+    const lot={id:"U"+Date.now().toString().slice(-8)+n, titleCn:r.title||"1688 lot", titleEn:r.title||"1688 lot", cat:"oth", belt:"yw", qty:r.qty, unit:"pcs", priceNow:r.price, priceWas:r.price, moq:0, cond:"mix", brand:"un", descCn:r.url||"", descEn:r.url||"", img:img, specs:{}, supplier:{name:(profile&&profile.display_name)||"1688",verified:false,whatsapp:"",resp:"—"}, createdAt:Date.now(), featured:false};
+    const {error}=await sb.from("listings").insert(lotToRow(lot));
+    if(!error) n++;
+  }
+  $("#m-status").innerHTML=`<div class="ok-msg">${esc(t("collect_imported").replace("N",n))}</div>`;
+  lotsLoaded=false; await ensureLots();
 }
 
 /* ---------------- nav actions ---------------- */
