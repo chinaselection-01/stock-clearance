@@ -1,9 +1,10 @@
 // ============================================================
 //  stock-clearance.ai — 视觉识别 (Supabase Edge Function)
 //  deploy: supabase functions deploy vision-tag
-//  配置密钥: supabase secrets set OPENAI_API_KEY=sk-xxx
+//  配置密钥: supabase secrets set DEEPSEEK_API_KEY=sk-xxx
 //
-//  接收前端传来的已压缩图片 base64，调用 OpenAI 视觉模型(GPT-4o-mini)，
+//  接收前端传来的已压缩图片 base64，调用 DeepSeek 视觉模型
+//  (deepseek-v4-flash-vision-exp, OpenAI 兼容格式, base_url=https://api.deepseek.com)，
 //  返回结构化 JSON，用于自动填写发布表单：
 //    { title_cn, title_en, cat, condition, specs{}, selling_points_en[], moq_suggestion }
 //
@@ -18,9 +19,10 @@ const cors = {
 };
 const JSON_H = { ...cors, "Content-Type": "application/json" };
 
-const MODEL = Deno.env.get("VISION_MODEL") || "gpt-4o-mini";
+const API_BASE = Deno.env.get("DEEPSEEK_BASE_URL") || "https://api.deepseek.com";
+const MODEL = Deno.env.get("VISION_MODEL") || "deepseek-v4-flash-vision-exp";
 
-const SYSTEM = `You are a B2B stock-lot listing assistant for a Chinese clearance/overstock marketplace (stock-clearance.ai). The user uploads a photo of a product. Identify it and return ONLY valid JSON (no markdown, no commentary) with exactly these fields:
+const SYSTEM = `You are a B2B stock-lot listing assistant for a Chinese clearance/overstock marketplace (stock-clearance.ai). The user uploads a photo of a product. Identify it and return ONLY valid JSON (no markdown, no commentary, no code fences) with exactly these fields:
 {
   "title_cn": string,        // concise Chinese product name, e.g. "304不锈钢保温杯 12oz"
   "title_en": string,        // concise English product name, e.g. "304 Stainless Tumbler 12oz"
@@ -38,11 +40,23 @@ const SYSTEM = `You are a B2B stock-lot listing assistant for a Chinese clearanc
 }
 If the image is unclear or not a physical product, return cat:"oth", title_cn:"未识别商品", title_en:"Unrecognized item", specs:{}, selling_points_en:[], moq_suggestion:null.`;
 
+function parseJSONLoose(s: string): any {
+  if (!s) return null;
+  let t = s.trim();
+  // strip markdown code fences if any
+  t = t.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
+  try { return JSON.parse(t); } catch (_e) {}
+  // fallback: grab first {...} block
+  const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (_e2) {} }
+  return null;
+}
+
 async function handle(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   try {
-    const key = Deno.env.get("OPENAI_API_KEY");
-    if (!key) return new Response(JSON.stringify({ error: "NO_OPENAI_KEY" }), { status: 200, headers: JSON_H });
+    const key = Deno.env.get("DEEPSEEK_API_KEY");
+    if (!key) return new Response(JSON.stringify({ error: "NO_DEEPSEEK_KEY" }), { status: 200, headers: JSON_H });
 
     const body = await req.json().catch(() => ({}));
     const b64 = body.imageBase64;
@@ -51,20 +65,20 @@ async function handle(req: Request): Promise<Response> {
 
     const dataUrl = `data:${mime};base64,${b64}`;
 
-    const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+    const resp = await fetch(`${API_BASE}/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
       body: JSON.stringify({
         model: MODEL,
         temperature: 0.2,
-        response_format: { type: "json_object" },
+        max_tokens: 800,
         messages: [
           { role: "system", content: SYSTEM },
           {
             role: "user",
             content: [
               { type: "text", text: "Identify this product from the photo and return the JSON." },
-              { type: "image_url", image_url: { url: dataUrl, detail: "auto" } },
+              { type: "image_url", image_url: { url: dataUrl, detail: "low" } },
             ],
           },
         ],
@@ -72,11 +86,11 @@ async function handle(req: Request): Promise<Response> {
     });
     if (!resp.ok) {
       const txt = await resp.text();
-      return new Response(JSON.stringify({ error: "OPENAI_ERR", detail: txt.slice(0, 500) }), { status: 200, headers: JSON_H });
+      return new Response(JSON.stringify({ error: "DEEPSEEK_ERR", detail: txt.slice(0, 500) }), { status: 200, headers: JSON_H });
     }
     const j = await resp.json();
-    let parsed: any = null;
-    try { parsed = JSON.parse(j.choices?.[0]?.message?.content || "{}"); } catch (_e) {}
+    const parsed = parseJSONLoose(j.choices?.[0]?.message?.content || "");
+    if (!parsed) return new Response(JSON.stringify({ error: "BAD_JSON", detail: String(j.choices?.[0]?.message?.content || "").slice(0, 300) }), { status: 200, headers: JSON_H });
     return new Response(JSON.stringify({ ok: true, result: parsed }), { status: 200, headers: JSON_H });
   } catch (e) {
     return new Response(JSON.stringify({ error: "FN_ERR", detail: String(e).slice(0, 300) }), { status: 200, headers: JSON_H });

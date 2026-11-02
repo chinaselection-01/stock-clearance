@@ -48,7 +48,7 @@ const I18N = {
     sup_banner:"Suppliers wanted — post free, photo-only", sup_banner_p:"We are filling inventory first. Free listing now. You take the photo, we do the rest.",
     how_join:"How to bring suppliers on board", join1:"Walk Yiwu Wuyuai & belt markets, invite booth owners directly", join2:"Post for them — you/assistant shoot photos, they just confirm", join3:"Share the invite link in WeChat stock-lot groups",
     time:"Time",
-    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_pw:"Password", acct_pw_ph:"Password (min 6 chars)", acct_login_btn:"Log in", acct_signup_btn:"Sign up", acct_or_link:"or sign in with email link", acct_location:"City", acct_bio:"One-line intro", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone.", collect_title:"Import source from 1688", collect_auto:"Auto collect (Apify)", collect_manual:"Manual paste", collect_kw_ph:"Keyword (Chinese / English)", collect_offer_ph:"One 1688 link or offer ID per line", collect_btn:"Collect", collect_collecting:"Collecting…", collect_nokey:"Auto collect needs an Apify token (see COLLECT_SETUP.md). Use Manual paste below — it works now.", collect_pick:"Select items to import", collect_import:"Import selected", collect_importing:"Importing…", collect_imported:"Imported N items", collect_empty:"No results.", collect_single:"Single link", collect_single_ph:"Paste one 1688 product link…", collect_single_btn:"Parse & import", collect_single_manual:"No Apify token configured — fill fields below; pasting an image URL auto re-hosts it to our storage.", man_img_ph:"Image URL (paste 1688 image address, optional)", collect_img_tip:"Images load via 1688 direct link (no-referrer). For permanent hosting configure the Edge Function.", man_title:"Title", man_price:"Clearance price", man_qty:"Quantity", man_import:"Import these", man_paste_ph:"Paste 1688 product links, one per line…", man_parse:"Parse links", man_parsed:"Parsed N links", nav_collect:"Import"
+    acct:"Account", acct_guest:"Guest", acct_login_t:"Log in / Sign up", acct_email_ph:"Your email", acct_send:"Send magic link", acct_link_sent:"✅ Check your email for a sign-in link (or verification email).", acct_upgrade_t:"Upgrade to a real account", acct_upgrade_p:"Add your email so your listings & inquiries are kept safely under your name.", acct_upgrade_btn:"Send verification email", acct_name:"Display name *", acct_wa:"WhatsApp", acct_company:"Company", acct_avatar:"Avatar", acct_pw:"Password", acct_pw_ph:"Password (min 6 chars)", acct_login_btn:"Log in", acct_signup_btn:"Sign up", acct_or_link:"or sign in with email link", acct_location:"City", acct_bio:"One-line intro", acct_phone_ph:"Phone number, e.g. +8613800138000", acct_code_ph:"6-digit SMS code", acct_send_code:"Send code", acct_resend:"Resend", acct_code_sent:"SMS code sent (arrives within ~1 min; tap Resend if not). Login = signup, no password needed.", acct_verify:"Log in / Sign up", acct_or_email:"Prefer email & password?", acct_back_phone:"Use phone + SMS code instead", acct_phone_err:"Phone format: country code + number, e.g. +8613800138000", acct_save:"Save profile", acct_saved:"✅ Profile saved", acct_mylist:"My listings", acct_logout:"Log out", acct_as_guest:"Posting as guest — a temporary account was auto-created for you.", acct_welcome:"Set your name so buyers recognize you.", mylist_title:"My stock listings", mylist_empty:"You haven't posted any stock yet.", mylist_del:"Delete", mylist_del_confirm:"Delete this listing? This cannot be undone.", collect_title:"Import source from 1688", collect_auto:"Auto collect (Apify)", collect_manual:"Manual paste", collect_kw_ph:"Keyword (Chinese / English)", collect_offer_ph:"One 1688 link or offer ID per line", collect_btn:"Collect", collect_collecting:"Collecting…", collect_nokey:"Auto collect needs an Apify token (see COLLECT_SETUP.md). Use Manual paste below — it works now.", collect_pick:"Select items to import", collect_import:"Import selected", collect_importing:"Importing…", collect_imported:"Imported N items", collect_empty:"No results.", collect_single:"Single link", collect_single_ph:"Paste one 1688 product link…", collect_single_btn:"Parse & import", collect_single_manual:"No Apify token configured — fill fields below; pasting an image URL auto re-hosts it to our storage.", man_img_ph:"Image URL (paste 1688 image address, optional)", collect_img_tip:"Images load via 1688 direct link (no-referrer). For permanent hosting configure the Edge Function.", man_title:"Title", man_price:"Clearance price", man_qty:"Quantity", man_import:"Import these", man_paste_ph:"Paste 1688 product links, one per line…", man_parse:"Parse links", man_parsed:"Parsed N links", nav_collect:"Import"
   },
   zh: {
     nav_home:"首页", nav_browse:"浏览", nav_post:"发布尾货", nav_inq:"询盘",
@@ -91,7 +91,7 @@ const I18N = {
     sup_banner:"正在招募供应商 · 免费发布 · 拍照即可发", sup_banner_p:"我们优先把库存填满。现在免费上架，你只管拍照，其余交给我们。",
     how_join:"如何把供应商拉进来", join1:"扫义乌五爱及各地产业带市场，直接邀请档口老板", join2:"代运营发帖——你/帮手拍照，老板只确认", join3:"在尾货微信群发邀请链接，老客户转介绍",
     time:"时间",
-    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_pw:"密码", acct_pw_ph:"密码（至少 6 位）", acct_login_btn:"登录", acct_signup_btn:"注册", acct_or_link:"或用邮箱链接登录", acct_location:"所在城市", acct_bio:"一句话简介", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。", collect_title:"从 1688 导入货源", collect_auto:"自动采集（Apify）", collect_manual:"手动批量粘贴", collect_kw_ph:"关键词（中文 / 英文）", collect_offer_ph:"每行一个 1688 链接或 offer ID", collect_btn:"采集", collect_collecting:"采集中…", collect_nokey:"自动采集需要配置 Apify token（见 COLLECT_SETUP.md）。请先用下方「手动批量粘贴」，现在就能用。", collect_pick:"勾选要导入的货源", collect_import:"导入选中", collect_importing:"导入中…", collect_imported:"已导入 N 件", collect_empty:"没有结果。", collect_single:"单链接", collect_single_ph:"粘贴单个 1688 商品链接…", collect_single_btn:"解析并导入", collect_single_manual:"未配置 Apify token — 请在下方填写字段；若粘贴图片地址，系统会自动转存到平台。", man_img_ph:"图片URL（可粘贴 1688 图片地址，选填）", collect_img_tip:"图片走 1688 直链（不发送 referer）。要永久托管请配置 Edge Function。", man_title:"商品名称", man_price:"清仓价", man_qty:"数量", man_import:"导入这些", man_paste_ph:"粘贴 1688 商品链接，每行一个…", man_parse:"解析链接", man_parsed:"已解析 N 条链接", nav_collect:"采集"
+    acct:"账号", acct_guest:"游客", acct_login_t:"登录 / 注册", acct_email_ph:"你的邮箱", acct_send:"发送登录链接", acct_link_sent:"✅ 请查收邮箱里的登录链接（或验证邮件）。", acct_upgrade_t:"升级为正式账号", acct_upgrade_p:"绑定邮箱，你的发布与询盘就会安全保存在你的名下。", acct_upgrade_btn:"发送验证邮件", acct_name:"显示名称 *", acct_wa:"WhatsApp", acct_company:"公司 / 店铺", acct_avatar:"头像", acct_pw:"密码", acct_pw_ph:"密码（至少 6 位）", acct_login_btn:"登录", acct_signup_btn:"注册", acct_or_link:"或用邮箱链接登录", acct_location:"所在城市", acct_bio:"一句话简介", acct_phone_ph:"手机号（如 +8613800138000）", acct_code_ph:"6 位短信验证码", acct_send_code:"发送验证码", acct_resend:"重新发送", acct_code_sent:"验证码已发送（约 1 分钟内到，没收到请点重新发送）。登录即注册，无需密码。", acct_verify:"登录 / 注册", acct_or_email:"用邮箱密码登录", acct_back_phone:"改用手机号验证码登录", acct_phone_err:"手机号格式：国家区号+号码，如 +8613800138000", acct_save:"保存资料", acct_saved:"✅ 资料已保存", acct_mylist:"我的发布", acct_logout:"退出登录", acct_as_guest:"当前为游客身份——系统已自动为你建了一个临时账号。", acct_welcome:"设置你的名字，方便买家认出你。", mylist_title:"我发布的尾货", mylist_empty:"你还没有发布过尾货。", mylist_del:"删除", mylist_del_confirm:"确定删除这条发布？删除后不可恢复。", collect_title:"从 1688 导入货源", collect_auto:"自动采集（Apify）", collect_manual:"手动批量粘贴", collect_kw_ph:"关键词（中文 / 英文）", collect_offer_ph:"每行一个 1688 链接或 offer ID", collect_btn:"采集", collect_collecting:"采集中…", collect_nokey:"自动采集需要配置 Apify token（见 COLLECT_SETUP.md）。请先用下方「手动批量粘贴」，现在就能用。", collect_pick:"勾选要导入的货源", collect_import:"导入选中", collect_importing:"导入中…", collect_imported:"已导入 N 件", collect_empty:"没有结果。", collect_single:"单链接", collect_single_ph:"粘贴单个 1688 商品链接…", collect_single_btn:"解析并导入", collect_single_manual:"未配置 Apify token — 请在下方填写字段；若粘贴图片地址，系统会自动转存到平台。", man_img_ph:"图片URL（可粘贴 1688 图片地址，选填）", collect_img_tip:"图片走 1688 直链（不发送 referer）。要永久托管请配置 Edge Function。", man_title:"商品名称", man_price:"清仓价", man_qty:"数量", man_import:"导入这些", man_paste_ph:"粘贴 1688 商品链接，每行一个…", man_parse:"解析链接", man_parsed:"已解析 N 条链接", nav_collect:"采集"
   }
 };
 
@@ -705,6 +705,42 @@ function updateAccountBtn(){
 }
 function openAccount(){ if(!USE_SUPABASE){ alert(t("acct_login_t")+": 需配置 Supabase 后端"); return; } acctOpen=true; renderAccount(); }
 function closeAccount(){ acctOpen=false; const m=$("#acct-modal"); if(m) m.style.display="none"; }
+let acctEmailMode=false;
+function normalizePhone(p){
+  p=(p||"").replace(/[\s\-()]/g,"");
+  if(!p) return "";
+  if(!p.startsWith("+")) p="+86"+p;  // 默认中国大陆，已带 +xx 则原样
+  return p;
+}
+function startAcctCooldown(){
+  let n=60; const b=$("#acct-send");
+  if(b) b.disabled=true;
+  const tick=setInterval(()=>{
+    n--;
+    if(n<=0){ clearInterval(tick); if(b){ b.disabled=false; b.textContent=t("acct_send_code"); } }
+    else if(b){ b.textContent=t("acct_resend")+" ("+n+"s)"; }
+  },1000);
+}
+async function sendPhoneCode(){
+  const raw=(document.getElementById('acct-phone')||{}).value||"";
+  const phone=normalizePhone(raw);
+  if(!/^\+\d{8,15}$/.test(phone)){ setAcctMsg(t("acct_phone_err")); return; }
+  const {error}=await sb.auth.signInWithOtp({phone});
+  if(error){ setAcctMsg(error.message); return; }
+  setAcctMsg(t("acct_code_sent"), true);
+  startAcctCooldown();
+}
+async function verifyPhoneCode(){
+  const raw=(document.getElementById('acct-phone')||{}).value||"";
+  const phone=normalizePhone(raw);
+  const token=((document.getElementById('acct-code')||{}).value||"").trim();
+  if(!/^\+\d{8,15}$/.test(phone)){ setAcctMsg(t("acct_phone_err")); return; }
+  if(!token){ setAcctMsg(t("acct_code_ph")); return; }
+  const {error}=await sb.auth.verifyOtp({phone, token, type:"sms"});
+  if(error){ setAcctMsg(error.message); return; }
+  const {data}=await sb.auth.getSession();
+  await applySession(data.session, false); renderAccount();
+}
 async function sendMagicLink(email){
   if(!email) return;
   const {error}=await sb.auth.signInWithOtp({email, options:{emailRedirectTo: window.location.origin+"/"}});
@@ -726,7 +762,12 @@ async function saveProfile(){
   const company=$("#acct-company").value.trim();
   const location=$("#acct-location").value.trim();
   const bio=$("#acct-bio").value.trim();
-  const {error}=await sb.from('profiles').upsert({id:userId, display_name:name, whatsapp:wa, company, location, bio});
+  let {error}=await sb.from('profiles').upsert({id:userId, display_name:name, whatsapp:wa, company, location, bio});
+  if(error){ // 旧库未加 location/bio 列时降级保存（跑过 fix_accounts.sql 后自动用全量字段）
+    const r2=await sb.from('profiles').upsert({id:userId, display_name:name, whatsapp:wa, company});
+    error=r2.error||null;
+    if(!error) setAcctMsg("Saved (basic fields). Run fix_accounts.sql to enable city/bio.", true);
+  }
   const r=$("#acct-msg");
   if(error){ r.innerHTML=`<div class="ok-msg" style="background:#FBE9DF;color:#cf3f0a;border-color:#F3C9B5">* ${esc(error.message)}</div>`; }
   else { profile={...profile, display_name:name, whatsapp:wa, company, location, bio}; r.innerHTML=`<div class="ok-msg">${esc(t("acct_saved"))}</div>`; updateAccountBtn(); }
@@ -779,18 +820,33 @@ function renderAccount(){
   m.style.display="flex";
   let html=`<div class="acct-panel"><div class="acct-head"><b>${esc(t("acct"))}</b><button class="x" onclick="closeAccount()">×</button></div><div id="acct-msg"></div>`;
   if(!userId){
-    html+=`<p>${esc(t("acct_login_t"))}</p>
+    if(!acctEmailMode){
+      // 手机号 + 短信验证码（登录即注册，忘密码也走这条）
+      html+=`<p>${esc(t("acct_login_t"))}</p>
+      <input id="acct-phone" placeholder="${esc(t("acct_phone_ph"))}">
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input id="acct-code" placeholder="${esc(t("acct_code_ph"))}" style="flex:1">
+        <button class="btn" id="acct-send" style="white-space:nowrap" onclick="sendPhoneCode()">${esc(t("acct_send_code"))}</button>
+      </div>
+      <button class="btn prime" style="width:100%;margin-top:8px" onclick="verifyPhoneCode()">${esc(t("acct_verify"))}</button>
+      <div class="acct-link" style="margin-top:8px;font-size:12px"><a href="javascript:void(0)" onclick="acctEmailMode=true;renderAccount()">${esc(t("acct_or_email"))}</a></div>`;
+    } else {
+      html+=`<p>${esc(t("acct_login_t"))}</p>
       <input id="acct-email" placeholder="${esc(t("acct_email_ph"))}">
       <input id="acct-pw" type="password" placeholder="${esc(t("acct_pw_ph"))}">
       <div class="acct-row" style="display:flex;gap:8px;margin-top:8px">
         <button class="btn prime" style="flex:1" onclick="loginWithPassword()">${esc(t("acct_login_btn"))}</button>
         <button class="btn" style="flex:1" onclick="signupWithPassword()">${esc(t("acct_signup_btn"))}</button>
       </div>
-      <div class="acct-link" style="margin-top:8px;font-size:12px"><a href="javascript:void(0)" onclick="sendMagicLink(document.getElementById('acct-email').value)">${esc(t("acct_or_link"))}</a></div>`;
+      <div class="acct-link" style="margin-top:8px;font-size:12px;display:flex;justify-content:space-between">
+        <a href="javascript:void(0)" onclick="acctEmailMode=false;renderAccount()">${esc(t("acct_back_phone"))}</a>
+        <a href="javascript:void(0)" onclick="sendMagicLink(document.getElementById('acct-email').value)">${esc(t("acct_or_link"))}</a>
+      </div>`;
+    }
   } else {
-    const isGuest = !session || !session.user || !session.user.email;
+    const isGuest = !session || !session.user || session.user.is_anonymous === true;
     const av = (profile&&profile.avatar_url)?`<img src="${esc(profile.avatar_url)}" class="avatar">`:`<div class="avatar ph">${esc((profile&&profile.display_name||"G")[0]||"G")}</div>`;
-    html+=`<div class="acct-id">${av}<div><div class="nm">${esc(profile&&profile.display_name || t("acct_guest"))}</div><div class="em">${esc((session&&session.user&&session.user.email)|| t("acct_as_guest"))}</div></div></div>`;
+    html+=`<div class="acct-id">${av}<div><div class="nm">${esc(profile&&profile.display_name || t("acct_guest"))}</div><div class="em">${esc((session&&session.user&&(session.user.email||session.user.phone))|| t("acct_as_guest"))}</div></div></div>`;
     if(isGuest){
       html+=`<div class="acct-up"><b>${esc(t("acct_upgrade_t"))}</b><p>${esc(t("acct_upgrade_p"))}</p>
         <input id="acct-up-email" placeholder="${esc(t("acct_email_ph"))}">
