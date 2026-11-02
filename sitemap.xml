@@ -15,4 +15,7 @@
   <url><loc>https://www.stock-clearance.ai/landing/pet-overstock.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.stock-clearance.ai/landing/toy-closeout.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.stock-clearance.ai/landing/shoes-socks-stocklot.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.stock-clearance.ai/reports/index.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.stock-clearance.ai/reports/household-daily-goods-overstock-report-2026.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.stock-clearance.ai/reports/shoes-socks-bags-tableware-stock-lot-guide.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
