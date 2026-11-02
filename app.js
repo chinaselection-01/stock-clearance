@@ -128,7 +128,7 @@ const $ = (s,r=document)=>r.querySelector(s);
 const app = ()=>$("#app");
 function t(k){ return (I18N[lang]&&I18N[lang][k]!=null)?I18N[lang][k]:(I18N.en[k]||k); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function money(n){ return "¥"+Number(n).toFixed(2); }
+function money(n){ n=Number(n); return n>0 ? "¥"+n.toFixed(2) : (lang==="zh"?"询价":"Inquiry"); }
 function offPct(now,was){ if(!was||was<=now) return 0; return Math.round((1-now/was)*100); }
 function ts(){ return new Date().toISOString(); }
 function fmtTime(iso){ try{ return new Date(iso).toLocaleString(lang==="zh"?"zh-CN":"en-US"); }catch(e){ return iso; } }
