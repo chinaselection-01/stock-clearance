@@ -128,7 +128,7 @@ const $ = (s,r=document)=>r.querySelector(s);
 const app = ()=>$("#app");
 function t(k){ return (I18N[lang]&&I18N[lang][k]!=null)?I18N[lang][k]:(I18N.en[k]||k); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function money(n){ return "$"+Number(n).toFixed(2); }
+function money(n){ return "¥"+Number(n).toFixed(2); }
 function offPct(now,was){ if(!was||was<=now) return 0; return Math.round((1-now/was)*100); }
 function ts(){ return new Date().toISOString(); }
 function fmtTime(iso){ try{ return new Date(iso).toLocaleString(lang==="zh"?"zh-CN":"en-US"); }catch(e){ return iso; } }
@@ -471,7 +471,7 @@ function renderPost(){
           <span class="tag2">EN · ${esc(lang==="zh"?"买家看到的英文效果":"Buyer view (EN)")}</span>
           <div class="img" id="pv-img" style="height:180px;margin-bottom:12px"></div>
           <h2 id="pv-title">—</h2>
-          <div class="pricerow"><span class="now" id="pv-now">$0.00</span><span class="was" id="pv-was"></span></div>
+          <div class="pricerow"><span class="now" id="pv-now">¥0.00</span><span class="was" id="pv-was"></span></div>
           <table><tr><td>${esc(t("stock_qty"))}</td><td id="pv-qty">—</td></tr>
             <tr><td>${esc(t("moq"))}</td><td id="pv-moq">—</td></tr>
             <tr><td>${esc(t("condition"))}</td><td id="pv-cond">—</td></tr>
@@ -545,7 +545,7 @@ function previewPost(){
   const now=parseFloat(g("p-now").value), was=parseFloat(g("p-was").value);
   const qty=g("p-qty").value, unit=g("p-unit").value||"pcs", moq=g("p-moq").value;
   $("#pv-title").textContent = titleCn || (src?"AI 待识别 / pending":"—");
-  $("#pv-now").textContent = isNaN(now)?"$0.00":money(now);
+  $("#pv-now").textContent = isNaN(now)?"¥0.00":money(now);
   $("#pv-was").textContent = isNaN(was)?"":money(was);
   $("#pv-qty").textContent = (qty||"—")+" "+(unit||"pcs");
   $("#pv-moq").textContent = (moq||"—")+" "+(unit||"pcs");
